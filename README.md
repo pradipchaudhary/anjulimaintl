@@ -1,2 +1,1 @@
-# city-khabar
-Wordpress news portal website.
+# Advanced CSS
