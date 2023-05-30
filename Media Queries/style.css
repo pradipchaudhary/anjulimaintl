@@ -1,8 +1,9 @@
-:root {
+@import url(./variable.css);
+/* :root {
     --primary-color: #35363a;
     --mobile-background: #007bff;
     --text-color: #ffffff;
-}
+} */
 * {
     margin: 0;
     padding: 0;
