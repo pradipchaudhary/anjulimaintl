@@ -23,7 +23,21 @@ body {
 .item:hover {
     transform: scale(1.2);
 }
-
+.item2 {
+    width: 300px;
+    height: 300px;
+    background: red;
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: #efefef;
+    transition: transform 0.5s ease-in-out;
+}
+.item2:hover {
+    transform: rotate(225deg);
+}
 /* CSS Animations: */
 /* CSS animations allow you to create smooth and dynamic effects on web pages. You can animate various CSS properties, such as position, size, color, and opacity, to bring elements to life. Animations are created using @keyframes rule, which defines the intermediate steps (keyframes) of the animation. Here's an example: */
 
