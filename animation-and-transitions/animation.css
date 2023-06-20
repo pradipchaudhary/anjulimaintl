@@ -38,6 +38,24 @@ body {
 .item2:hover {
     transform: rotate(225deg);
 }
+
+.slide-box {
+    width: 200px;
+    height: 200px;
+    background: greenyellow;
+    animation-name: slide-in;
+    animation-duration: 2s;
+    animation-delay: 1s;
+    animation-fill-mode: forwards;
+}
+@keyframes slide-in {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
 /* CSS Animations: */
 /* CSS animations allow you to create smooth and dynamic effects on web pages. You can animate various CSS properties, such as position, size, color, and opacity, to bring elements to life. Animations are created using @keyframes rule, which defines the intermediate steps (keyframes) of the animation. Here's an example: */
 
