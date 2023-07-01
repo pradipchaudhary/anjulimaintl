@@ -1,4 +1,5 @@
-const canvas = document.getElementById("pradip-canvas"),
+"use strict";
+const canvas = document.getElementById("ashiish-canvas"),
     context = canvas.getContext("2d");
 function Circle(t, e, i, n, s) {
     (this.x = t),
@@ -46,3 +47,12 @@ function render() {
     for (var t = 0; t < circles.length; t++) circles[t].update();
 }
 render();
+const menu_btn = document.getElementById("ashiishme-menu-btn"),
+    menu = document.querySelector(".mobile-menu");
+menu_btn.addEventListener("click", () => {
+    "0" === menu_btn.dataset.clicked
+        ? ((menu.style.marginLeft = "0px"),
+          (menu.style.visibility = "visible"),
+          (menu_btn.dataset.clicked = "1"))
+        : ((menu.style.marginLeft = "-60%"), (menu_btn.dataset.clicked = "0"));
+});
