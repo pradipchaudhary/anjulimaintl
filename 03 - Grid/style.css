@@ -1,0 +1,32 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    widows: 100%;
+    height: 100vh;
+    background: gray;
+}
+.grid-container {
+    display: grid;
+    grid-template-columns: 200px auto;
+    grid-template-rows: 200px 500px 200px;
+}
+
+.item1 {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    background: goldenrod;
+}
+.item2 {
+    background: orangered;
+}
+.item3 {
+    background: purple;
+}
+.item4 {
+    background: #000;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
