@@ -1,1 +1,1 @@
-# Advanced CSS Workshop
+# Next.js 15
