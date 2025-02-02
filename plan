@@ -1,0 +1,122 @@
+Great! 🚀 Here’s a step-by-step plan to **build an AI-powered recruitment web app** for Nepal:  
+
+---
+
+## **📌 Phase 1: Project Planning**
+1. **Define the Core Features**  
+   - AI Resume Screening  
+   - AI Job Matching System  
+   - AI Chatbot for Candidate Assistance  
+   - Fraud Detection (Fake Job & Resume Filtering)  
+   - Video & Voice Screening  
+   - Predictive Hiring Analytics  
+
+2. **Choose the Tech Stack**  
+   - **Frontend:** Next.js (React), Tailwind CSS  
+   - **Backend:** Node.js, Express.js  
+   - **Database:** MongoDB (for scalability)  
+   - **AI & ML:** TensorFlow.js, OpenAI API, Hugging Face  
+   - **Authentication:** Firebase Auth / JWT  
+   - **Hosting & Deployment:** Vercel (Frontend), AWS/DigitalOcean (Backend)  
+
+---
+
+## **📌 Phase 2: UI/UX Design**
+- Design a **clean and modern UI** using **Figma**.  
+- Keep the layout **user-friendly** for job seekers and employers.  
+- Ensure **mobile responsiveness** for users applying via smartphones.  
+
+---
+
+## **📌 Phase 3: Development**
+### **1️⃣ AI Resume Screening System**  
+**🔹 How it works:**  
+- Job seekers upload their resumes (PDF/DOC).  
+- AI scans the document, extracts key information (skills, experience, education).  
+- AI scores the resume based on job requirements.  
+
+**🔹 Tools Required:**  
+- **Natural Language Processing (NLP):** OpenAI API / TensorFlow.js  
+- **Resume Parser:** PyPDF2 or Docx.js  
+
+---
+
+### **2️⃣ AI-Powered Job Matching**  
+**🔹 How it works:**  
+- AI **analyzes job descriptions** and compares them with candidates' resumes.  
+- **Machine Learning models** suggest the best job matches.  
+
+**🔹 Tools Required:**  
+- **Vector Search & AI Matching Algorithm:** OpenAI Embeddings / Pinecone  
+- **Machine Learning Framework:** TensorFlow.js / Scikit-learn  
+
+---
+
+### **3️⃣ AI Chatbot for Candidate Assistance**  
+**🔹 How it works:**  
+- AI-powered chatbot answers common job-seeking queries.  
+- Helps with **resume improvement, interview preparation,** and **application status tracking**.  
+
+**🔹 Tools Required:**  
+- OpenAI API (GPT)  
+- Node.js with WebSockets for real-time chat  
+
+---
+
+### **4️⃣ Fraud Detection System (Fake Jobs & Resumes)**  
+**🔹 How it works:**  
+- AI detects **spam/fake job posts** using NLP-based anomaly detection.  
+- AI scans **candidate resumes for fake entries** (like unverifiable companies).  
+
+**🔹 Tools Required:**  
+- NLP-based **text classification model** (BERT / OpenAI API)  
+- **Database cross-verification** with verified companies  
+
+---
+
+### **5️⃣ Video & Voice Screening AI**  
+**🔹 How it works:**  
+- Candidates record **short video interviews** answering preset questions.  
+- AI **analyzes facial expressions, tone, and confidence** to rate responses.  
+
+**🔹 Tools Required:**  
+- Google Vision API (Facial Recognition)  
+- OpenAI Whisper (Voice Analysis)  
+- TensorFlow.js  
+
+---
+
+### **6️⃣ Predictive Hiring Analytics (For Employers)**  
+**🔹 How it works:**  
+- AI suggests the **best hiring times** based on past recruitment data.  
+- AI **predicts salary trends** for different job roles.  
+
+**🔹 Tools Required:**  
+- **Data Visualization:** Chart.js / D3.js  
+- **AI Model for Predictions:** TensorFlow.js / Scikit-learn  
+
+---
+
+## **📌 Phase 4: Testing & Deployment**
+1. **Run Unit Tests & AI Model Testing**  
+2. **Deploy the Web App on Vercel (Frontend) & AWS/DigitalOcean (Backend)**  
+3. **Launch a Beta Version for Testing**  
+
+---
+
+## **📌 Phase 5: Marketing & Monetization**
+### **💰 How to Monetize the Platform?**  
+✅ **Subscription Model** – Charge employers for premium job posts & AI screening.  
+✅ **Commission on Hires** – Charge a fee when a candidate gets hired.  
+✅ **Ads & Sponsorships** – Charge companies for **featured job listings**.  
+
+---
+
+## **Next Steps:**  
+1. **Create a GitHub Repository** for development.  
+2. **Start with the UI/UX Design** (I can generate Figma templates if needed).  
+3. **Set Up a Simple MVP (Minimum Viable Product)** with basic AI features.  
+
+---
+
+### 🚀 **Would you like me to generate a GitHub repository for this project and set up the initial files?**
