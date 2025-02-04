@@ -1,45 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import multer from "multer";
-import Tesseract from "tesseract.js";
-import pdfParse from "pdf-parse";
-import fs from "fs/promises";
-import path from "path";
 
-// Configure Multer for file uploads
-const upload = multer({ dest: "/tmp/" });
 
-export async function POST(req: NextRequest) {
-    try {
-        const formData = await req.formData();
-        const file = formData.get("file") as Blob | null;
-
-        if (!file) return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
-
-        const buffer = Buffer.from(await file.arrayBuffer());
-        const filePath = `/tmp/${file.name}`;
-        await fs.writeFile(filePath, buffer);
-        const fileExt = path.extname(filePath).toLowerCase();
-
-        let extractedText = "";
-        if (fileExt === ".pdf") {
-            // Extract text from PDF
-            const data = await pdfParse(buffer);
-            extractedText = data.text;
-        } else {
-            // Extract text from image using OCR
-            const { data } = await Tesseract.recognize(filePath, "eng");
-            extractedText = data.text;
-        }
-
-        // Parse passport fields
-        const passportData = parsePassportData(extractedText);
-        await fs.unlink(filePath);
-
-        return NextResponse.json({ success: true, data: passportData });
-    } catch (error) {
-        return NextResponse.json({ error: "Error processing file" }, { status: 500 });
-    }
-}
 
 // Function to extract passport fields
 const parsePassportData = (text: string) => {
