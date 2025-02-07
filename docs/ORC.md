@@ -18,3 +18,16 @@ Google's Vision API can detect and extract text from images, supporting a wide r
 - **Post-Processing:** Extracting structured data (e.g., names, dates) may require additional processing, such as regular expressions or machine learning models, to accurately identify and categorize the extracted text.
 
 By leveraging these tools, you can develop a JavaScript application capable of scanning ID cards and extracting pertinent information efficiently. 
+
+ORC Blog
+1. Tesseract.js:
+https://sign.dropbox.com/blog/using-ocr-in-javascript?utm_source=chatgpt.com
+
+Butler Labs' OCR API:
+https://docs.butlerlabs.ai/reference/nodejs-id-card-ocr?utm_source=chatgpt.com
+
+Filestack's JavaScript OCR API:
+https://blog.filestack.com/automating-id-verification-web-applications-ocr-apis/?utm_source=chatgpt.com
+
+Google Cloud Vision API:
+https://cloud.google.com/vision/docs/ocr?utm_source=chatgpt.com
