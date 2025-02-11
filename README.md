@@ -50,7 +50,7 @@ An AI-powered web application can automate and optimize the hiring process for r
 
 ---
 
-### **How This Web App Will Benefit Recruitment Companies in Nepal**  
+## **How This Web App Will Benefit Recruitment Companies in Nepal**  
 ✅ Faster and more efficient hiring process.  
 ✅ Higher job-to-candidate match accuracy.  
 ✅ Reduces time and cost spent on manual resume screening.  
