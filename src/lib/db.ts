@@ -24,7 +24,7 @@ if (!global.mongooseCache) {
 
 export async function connectToDatabase(): Promise<mongoose.Connection> {
     if (cached.conn) return cached.conn;
-
+    console.log("hello..")
     if (!cached.promise) {
         cached.promise = mongoose
             .connect(MONGODB_URL, {
@@ -33,10 +33,13 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
             })
             .then((db) => db.connection);
     }
-    console.log("Connect...")
+
+    console.log("connection...")
 
     try {
+        console.log("before connect...")
         cached.conn = await cached.promise;
+        console.log("Connected...")
     } catch (error) {
         cached.promise = null;
         throw error;
