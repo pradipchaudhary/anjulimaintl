@@ -33,6 +33,7 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
             })
             .then((db) => db.connection);
     }
+    console.log("Connect...")
 
     try {
         cached.conn = await cached.promise;

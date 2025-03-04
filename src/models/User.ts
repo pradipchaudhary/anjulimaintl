@@ -1,3 +1,4 @@
+import bcrypt from "bcryptjs";
 import mongoose, { Schema, Document, Model } from "mongoose";
 
 // Define user roles as a TypeScript enum
@@ -30,6 +31,15 @@ const UserSchema: Schema<IUser> = new Schema(
     },
     { timestamps: true }
 );
+
+
+UserSchema.pre("save", async function (next) {
+    if (this.isModified('password')) {
+        this.password = await bcrypt.hash(this.password, 10)
+    }
+    next()
+})
+
 
 // Export User Model
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
