@@ -39,11 +39,7 @@ export async function connectToDatabase(): Promise<mongoose.Connection> {
     try {
         console.log("before connect...")
         cached.conn = await cached.promise;
-<<<<<<< HEAD
-        console.log("Connected...")
-=======
-        console.log("connected.")
->>>>>>> 1c48f7d7bdeab813f2fe6fd664d70c479fdeb460
+
     } catch (error) {
         cached.promise = null;
         throw error;
