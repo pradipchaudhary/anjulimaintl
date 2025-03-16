@@ -41,7 +41,7 @@ const JobApplicantSchema = new Schema<IJobApplicant>(
     dateOfExpiry: { type: Date, required: true },
     placeOfBirth: { type: String, required: true },
     nationality: { type: String, required: true },
-    holderSignature: { type: String },
+    holderSignature: { type: String }, // Save holder Signature png image 
     contactNo: { type: String, required: true },
     email: { type: String, unique: true, required: true, lowercase: true },
     educationLevel: { type: String, required: true },
@@ -49,8 +49,8 @@ const JobApplicantSchema = new Schema<IJobApplicant>(
     preferredCountry: { type: String, required: true },
     preferredIndustry: { type: String, required: true },
     workExperienceYears: { type: Number, required: true },
-    passportScanLink: { type: String },
-    resumeLink: { type: String },
+    passportScanLink: { type: String }, // save passport scan image like .png, .pdf .jpg format
+    resumeLink: { type: String }, // Save resume linke like .doc, .pdf .png links
     appliedDate: { type: Date, default: Date.now },
   },
   { timestamps: true }

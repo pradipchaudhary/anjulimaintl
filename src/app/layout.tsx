@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full bg-gradient-to-br from-[#0693E3] via-[#6D44E5] to-[#9B51E0] font-$[family-name:var(--font-geist-sans)]`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased h-full w-full  font-$[family-name:var(--font-geist-sans)]`}
       >
         {children}
       </body>
