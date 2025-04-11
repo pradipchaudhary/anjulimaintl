@@ -9,6 +9,7 @@ const Home = () => {
             <nav>
                 <ul>
                     <li><Link href="/scanner">Login </Link></li>
+                    <li><Link href="/job-applicants">Job Applicants </Link></li>
                 </ul>
             </nav>
         </div>

@@ -34,6 +34,12 @@ const JobApplicants = () => {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+
+
+  const formatDate = (dateString: string): string => {
+    const date = new Date(dateString);
+    return new Intl.DateTimeFormat("en-GB").format(date); // en-GB uses dd/mm/yyyy format
+  };
   useEffect(() => {
     const fetchApplicants = async () => {
       setLoading(true); // Set loading state to true
@@ -61,7 +67,7 @@ const JobApplicants = () => {
       {loading && <p className="text-center text-gray-500">Loading...</p>}
       {error && <p className="text-center text-red-500">{error}</p>}
       {applicants.length === 0 && <p className="text-center text-gray-500">No applicants available</p>}
-      
+
       {applicants.length > 0 && (
         <div className="overflow-x-auto shadow-xl border border-gray-200 rounded-lg">
           <table className="min-w-full table-auto">
@@ -86,7 +92,7 @@ const JobApplicants = () => {
                   <td className="px-6 py-4">{applicant.middleName}</td>
                   <td className="px-6 py-4">{applicant.lastName}</td>
                   <td className="px-6 py-4">{applicant.passportNumber}</td>
-                  <td className="px-6 py-4">{applicant.dateOfBirth}</td>
+                  <td className="px-6 py-4">{formatDate(applicant.dateOfBirth)}</td>
                   <td className="px-6 py-4">{applicant.gender}</td>
                   <td className="px-6 py-4">{applicant.email}</td>
                   <td className="px-6 py-4">{applicant.preferredCountry}</td>
