@@ -13,8 +13,11 @@ export enum UserRole {
 export interface IUser extends Document {
     name: string;
     email: string;
+    _id?: mongoose.Types.ObjectId;
     password: string;
     role: UserRole;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 // Define User Schema
@@ -32,14 +35,14 @@ const UserSchema: Schema<IUser> = new Schema(
     { timestamps: true }
 );
 
-
-UserSchema.pre("save", async function (next) {
-    if (this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, 10)
+// Pre-save hook for password hashing
+UserSchema.pre<IUser>("save", async function (next) {
+    const user = this as IUser; // Explicitly cast `this` as `IUser`
+    if (user.isModified("password")) {
+        user.password = await bcrypt.hash(user.password, 10);
     }
-    next()
-})
-
+    next();
+});
 
 // Export User Model
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
