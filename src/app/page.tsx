@@ -4,7 +4,7 @@ import React from 'react'
 const Home = () => {
     return (
         <div class="flex h-screen">
-            <!-- Left Section (Welcome / Image / Branding) -->
+
             <div class="w-1/2 bg-blue-600 text-white flex items-center justify-center p-10">
               <div class="text-center">
                 <h1 class="text-4xl font-bold mb-4">Welcome to</h1>
@@ -15,7 +15,7 @@ const Home = () => {
               </div>
             </div>
 
-             <!-- Right Section (Login Form) -->
+        
             <div class="w-1/2 flex items-center justify-center p-10">
               <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md">
                 <h2 class="text-2xl font-bold text-gray-700 mb-6">Login to Your Account</h2>
