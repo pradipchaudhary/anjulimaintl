@@ -1,5 +1,5 @@
-import bcrypt from "bcryptjs";
-import mongoose, { Schema, Document, Model } from "mongoose";
+import bcrypt from "bcryptjs"
+import mongoose, { Schema, model, models, Document, Model } from "mongoose"
 
 // Define user roles as a TypeScript enum
 export enum UserRole {
@@ -9,9 +9,8 @@ export enum UserRole {
     HR = "HR",
 }
 
-// Define User Interface
-export interface IUser {
-    _id?: mongoose.Types.ObjectId
+// Extend Mongoose's Document to include Mongoose methods like isModified()
+export interface IUser extends Document {
     name: string
     email: string
     password: string
@@ -20,30 +19,32 @@ export interface IUser {
     updatedAt?: Date
 }
 
-// Define User Schema
-const UserSchema: Schema<IUser> = new Schema(
+// Define the schema
+const UserSchema = new Schema<IUser>(
     {
         name: { type: String, required: true },
         email: { type: String, required: true, unique: true },
         password: { type: String, required: true },
         role: {
             type: String,
-            enum: Object.values(UserRole), // Restrict to defined roles
-            default: UserRole.Agent, // Default role is "Agent"
+            enum: Object.values(UserRole),
+            default: UserRole.Agent,
         },
     },
     { timestamps: true }
-);
+)
 
-// Pre-save hook for password hashing
-UserSchema.pre<IUser>("save", async function (next) {
-    const user = this as IUser; // Explicitly cast `this` as `IUser`
+// Hash password before saving
+UserSchema.pre("save", async function (next) {
+    const user = this as IUser
+
     if (user.isModified("password")) {
-        user.password = await bcrypt.hash(user.password, 10);
+        user.password = await bcrypt.hash(user.password, 10)
     }
-    next();
-});
 
-// Export User Model
-const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
-export default User;
+    next()
+})
+
+// Export model
+const User: Model<IUser> = models.User || model<IUser>("User", UserSchema)
+export default User

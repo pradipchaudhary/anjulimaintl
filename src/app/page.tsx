@@ -1,6 +1,7 @@
 // pages/index.tsx or app/page.tsx (for Next.js)
 import Link from 'next/link'
 import React from 'react'
+import Image from 'next/image'
 
 const LoginPage = () => {
     return (
@@ -8,7 +9,7 @@ const LoginPage = () => {
             <div className="w-full max-w-md bg-white shadow-md rounded-xl p-8 space-y-6">
                 {/* Logo or Title */}
                 <div className="text-center">
-                    <img src="/logo.png" alt="Logo" className="w-20 h-20 mx-auto mb-3" />
+                    <Image src="/logo.png" alt="Logo" width={200} height={200} className="w-20 h-20 mx-auto mb-3" />
                     <h2 className="text-2xl font-bold text-gray-800">Welcome Back</h2>
                     <p className="text-sm text-gray-500 mt-1">Please login to your account</p>
                 </div>
