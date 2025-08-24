@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: anjulimaintl-server
-    env: docker
-    rootDir: server
-    plan: free
-    envVars:
-      - key: NODE_ENV
-        value: production
