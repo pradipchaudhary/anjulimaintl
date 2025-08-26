@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function LoginForm() {
@@ -14,10 +15,17 @@ export default function LoginForm() {
     return (
         <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
             <div className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
-                <h1 className="text-2xl font-semibold text-gray-900 text-center">
-                    Welcome Back 👋
-                </h1>
-                <p className="mt-2 text-center text-gray-500">
+                <div className="flex justify-center">
+                    <Image
+                        src="/logo.webp"
+                        alt="Logo"
+                        width={181}
+                        height={80}
+                        className="mb-2"
+                    />
+                </div>
+
+                <p className="mt-2 mb-6 text-center text-gray-500">
                     Please login to your account
                 </p>
 
