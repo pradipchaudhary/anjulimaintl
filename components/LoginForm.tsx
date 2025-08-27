@@ -21,9 +21,11 @@ export default function LoginForm() {
                         alt="Logo"
                         width={181}
                         height={80}
-                        className="mb-2"
+                        priority   // 👈 fixes LCP warning
+                        className="mb-2 h-auto w-auto"  // 👈 fixes aspect ratio warning
                     />
                 </div>
+
 
                 <p className="mt-2 mb-6 text-center text-gray-500">
                     Please login to your account
