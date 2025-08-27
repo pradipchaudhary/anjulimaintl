@@ -1,6 +1,6 @@
-import Chart from "@/app/components/Chart";
-import LeadsTable from "@/app/components/LeadsTable";
-import RevenueCard from "@/app/components/RevenueCard";
+import Chart from "@/components/Chart";
+import LeadsTable from "@/components/LeadsTable";
+import RevenueCard from "@/components/RevenueCard";
 
 export default function Dashboard() {
   return (

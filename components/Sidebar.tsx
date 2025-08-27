@@ -1,0 +1,71 @@
+"use client";
+
+import { Home, Briefcase, Settings, HelpCircle, ClipboardList } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation"; // for active link
+
+const Sidebar = () => {
+    const pathname = usePathname(); // get current path
+
+    const navItems = [
+        { name: "Overview", href: "/dashboard", icon: <Home size={18} /> },
+        { name: "Candidates", href: "/dashboard/candidates", icon: <Briefcase size={18} /> },
+        { name: "Integration", href: "/dashboard/ntegration", icon: <ClipboardList size={18} /> },
+        { name: "Tasks", href: "/dashboard/tasks", icon: <ClipboardList size={18} /> },
+    ];
+
+    const bottomItems = [
+        { name: "Settings", href: "/dashboard/settings", icon: <Settings size={18} /> },
+        { name: "Help & Support", href: "/help", icon: <HelpCircle size={18} /> },
+    ];
+
+    return (
+        <aside className="w-64 bg-white shadow-md h-screen flex flex-col justify-between">
+            {/* Top Section */}
+            <div>
+                {/* Logo */}
+                <div className="flex justify-center items-center p-4 border-b border-gray-200">
+                    <Image
+                        src="/logo.webp"
+                        alt="Logo"
+                        width={181}
+                        height={80}
+                        priority
+                        className="h-auto w-auto"
+                    />
+                </div>
+
+                {/* Navigation */}
+                <nav className="flex flex-col mt-4">
+                    {navItems.map((item) => (
+                        <Link
+                            key={item.href}
+                            href={item.href}
+                            className={`flex items-center gap-3 p-3 mx-2 rounded-lg hover:bg-gray-100 transition
+                ${pathname === item.href ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-gray-700"}`}
+                        >
+                            {item.icon} <span className="text-sm">{item.name}</span>
+                        </Link>
+                    ))}
+                </nav>
+            </div>
+
+            {/* Bottom Section */}
+            <div className="p-4 border-t border-gray-200">
+                {bottomItems.map((item) => (
+                    <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-center gap-3 p-2 rounded hover:bg-gray-100 transition
+              ${pathname === item.href ? "bg-indigo-50 text-indigo-600 font-semibold" : "text-gray-700"}`}
+                    >
+                        {item.icon} <span className="text-sm">{item.name}</span>
+                    </Link>
+                ))}
+            </div>
+        </aside>
+    );
+};
+
+export default Sidebar;
