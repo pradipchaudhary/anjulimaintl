@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
-
 export default function RegisterPage() {
     const router = useRouter();
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -26,12 +25,16 @@ export default function RegisterPage() {
                 body: JSON.stringify(form),
             });
 
-            const data = await res.json();
+            const data: { error?: string } = await res.json();
             if (!res.ok) throw new Error(data.error || 'Something went wrong');
 
             router.push('/login');
-        } catch (err: any) {
-            setError(err.message);
+        } catch (err: unknown) {
+            if (err instanceof Error) {
+                setError(err.message);
+            } else {
+                setError('An unexpected error occurred');
+            }
         } finally {
             setLoading(false);
         }
