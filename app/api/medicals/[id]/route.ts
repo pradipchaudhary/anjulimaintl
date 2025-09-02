@@ -2,10 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Medical from "@/models/Medical";
 
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
+// PUT: Update medical by ID
+export async function PUT(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connectDB();
-        const body = await req.json();
+        const body = await request.json();
 
         const updated = await Medical.findByIdAndUpdate(context.params.id, body, { new: true });
         if (!updated) {
@@ -19,7 +20,8 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
     }
 }
 
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+// DELETE: Delete medical by ID
+export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
     try {
         await connectDB();
         const deleted = await Medical.findByIdAndDelete(context.params.id);
