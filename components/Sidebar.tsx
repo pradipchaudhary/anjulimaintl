@@ -11,8 +11,7 @@ const Sidebar = () => {
     const navItems = [
         { name: "Overview", href: "/dashboard", icon: <Home size={18} /> },
         { name: "Candidates", href: "/dashboard/candidates", icon: <Briefcase size={18} /> },
-        { name: "Integration", href: "/dashboard/ntegration", icon: <ClipboardList size={18} /> },
-        { name: "Tasks", href: "/dashboard/tasks", icon: <ClipboardList size={18} /> },
+        { name: "Visa", href: "/dashboard/visa", icon: <ClipboardList size={18} /> },
     ];
 
     const bottomItems = [
@@ -25,11 +24,11 @@ const Sidebar = () => {
             {/* Top Section */}
             <div>
                 {/* Logo */}
-                <div className="flex justify-center items-center p-4 border-b border-gray-200">
+                <div className="flex items-center p-4  border-gray-200">
                     <Image
-                        src="/logo.webp"
+                        src="/logo.jpg"
                         alt="Logo"
-                        width={181}
+                        width={150}
                         height={80}
                         priority
                         className="h-auto w-auto"
