@@ -18,19 +18,32 @@ export default function MedicalList() {
     const [search, setSearch] = useState("");
     const [filteredRecords, setFilteredRecords] = useState<IMedical[]>([]);
 
+    // Fetch all medical records
     const fetchRecords = async () => {
-        const res = await fetch("/api/medicals");
-        const data = await res.json();
-        setRecords(data);
-        setFilteredRecords(data);
+        try {
+            const res = await fetch("/api/medicals");
+            if (!res.ok) throw new Error("Failed to fetch records");
+            const data: IMedical[] = await res.json();
+            setRecords(data);
+            setFilteredRecords(data);
+        } catch (err) {
+            console.error(err);
+        }
     };
 
+    // Delete a record by id
     const handleDelete = async (id: string) => {
         if (!confirm("Are you sure?")) return;
-        await fetch(`/api/medicals/${id}`, { method: "DELETE" });
-        fetchRecords();
+        try {
+            const res = await fetch(`/api/medicals/${id}`, { method: "DELETE" });
+            if (!res.ok) throw new Error("Failed to delete record");
+            fetchRecords(); // Refresh list
+        } catch (err) {
+            console.error(err);
+        }
     };
 
+    // Filter records by search input
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.toLowerCase();
         setSearch(value);
@@ -53,7 +66,7 @@ export default function MedicalList() {
         <div className="max-w-full mx-auto p-4">
             <h1 className="text-2xl font-bold mb-4">Medical Records</h1>
 
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex flex-col sm:flex-row justify-between items-center mb-4 gap-2">
                 <input
                     type="text"
                     value={search}
@@ -64,7 +77,7 @@ export default function MedicalList() {
 
                 <Link
                     href="/dashboard/medicals/new"
-                    className="bg-blue-600 text-white px-4 py-2 rounded ml-4"
+                    className="bg-blue-600 text-white px-4 py-2 rounded"
                 >
                     Add New
                 </Link>
