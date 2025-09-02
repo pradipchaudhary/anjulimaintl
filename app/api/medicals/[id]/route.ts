@@ -2,13 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Medical from "@/models/Medical";
 
-// PUT: Update medical by ID
-export async function PUT(request: NextRequest, context: { params: { id: string } }) {
+// Update medical record
+export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await connectDB();
-        const body = await request.json();
+        const body = await req.json();
 
-        const updated = await Medical.findByIdAndUpdate(context.params.id, body, { new: true });
+        const { id } = await context.params; // unwrap the promise
+        const updated = await Medical.findByIdAndUpdate(id, body, { new: true });
+
         if (!updated) {
             return NextResponse.json({ error: "Record not found" }, { status: 404 });
         }
@@ -20,11 +22,12 @@ export async function PUT(request: NextRequest, context: { params: { id: string 
     }
 }
 
-// DELETE: Delete medical by ID
-export async function DELETE(request: NextRequest, context: { params: { id: string } }) {
+// Delete medical record
+export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
         await connectDB();
-        const deleted = await Medical.findByIdAndDelete(context.params.id);
+        const { id } = await context.params;
+        const deleted = await Medical.findByIdAndDelete(id);
 
         if (!deleted) {
             return NextResponse.json({ error: "Record not found" }, { status: 404 });
