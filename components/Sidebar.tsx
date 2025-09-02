@@ -12,6 +12,8 @@ const Sidebar = () => {
         { name: "Overview", href: "/dashboard", icon: <Home size={18} /> },
         { name: "Candidates", href: "/dashboard/candidates", icon: <Briefcase size={18} /> },
         { name: "Visas", href: "/dashboard/visas", icon: <ClipboardList size={18} /> },
+        { name: "Medicals", href: "/dashboard/medicals", icon: <ClipboardList size={18} /> },
+        { name: "Flights", href: "/dashboard/flights", icon: <ClipboardList size={18} /> },
     ];
 
     const bottomItems = [
