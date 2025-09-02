@@ -11,7 +11,7 @@ const Sidebar = () => {
     const navItems = [
         { name: "Overview", href: "/dashboard", icon: <Home size={18} /> },
         { name: "Candidates", href: "/dashboard/candidates", icon: <Briefcase size={18} /> },
-        { name: "Visa", href: "/dashboard/visa", icon: <ClipboardList size={18} /> },
+        { name: "Visas", href: "/dashboard/visas", icon: <ClipboardList size={18} /> },
     ];
 
     const bottomItems = [
