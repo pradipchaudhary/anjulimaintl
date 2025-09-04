@@ -16,6 +16,7 @@ export async function GET() {
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
+        console.log("database connection.....")
         const body = await req.json();
         console.log("object", body);
 

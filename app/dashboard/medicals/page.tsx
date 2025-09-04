@@ -72,15 +72,21 @@ export default function MedicalList() {
                     value={search}
                     onChange={handleSearch}
                     placeholder="Search by Name, Email, Address, Phone..."
-                    className="border border-gray-200 rounded px-3 py-2 w-full max-w-xs"
+                    className="border border-gray-200 rounded-md px-3 py-2 w-full max-w-xs 
+             focus:outline-none focus:border-primary
+             transition duration-200"
                 />
 
-                <Link
+                <div className="flex gap-2">
+                    <Link
                     href="/dashboard/medicals/new"
-                    className="bg-blue-600 text-white px-4 py-2 rounded"
+                    className="bg-primary text-white px-4 py-1.5 rounded"
                 >
                     Add New
                 </Link>
+                <Link href={"/dashboard"}
+                className="border border-primary px-4 py-1.5 rounded"> Export all </Link>
+                </div>
             </div>
 
             <div className="overflow-x-auto">
