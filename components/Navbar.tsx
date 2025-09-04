@@ -24,14 +24,14 @@ export default function Navbar() {
 
     // Dummy user (replace with real user when auth is added later)
     const user = {
-        name: "John Doe",
+        name: "Anjulima Int",
         email: "john@example.com",
     };
 
     return (
-        <header className="flex justify-between items-center bg-white p-4">
+        <header className="flex justify-between items-center bg-white p-4 ml-2">
             {/* Search Box */}
-            <div className="flex items-center bg-gray-100 px-3 py-1 rounded w-full max-w-md">
+            <div className="flex items-center bg-gray-50 px-3 py-2 rounded w-full max-w-md border border-gray-200 ">
                 <Search size={18} className="text-gray-500" />
                 <input
                     type="text"
