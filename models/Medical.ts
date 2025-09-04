@@ -1,7 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
 export interface IMedical extends Document {
-    sn: number;
     name: string;
     email: string;
     address: string;
@@ -12,7 +11,6 @@ export interface IMedical extends Document {
 
 const MedicalSchema: Schema = new Schema<IMedical>(
     {
-        sn: { type: Number, required: true, unique: true },
         name: { type: String, required: true },
         email: { type: String, required: true },
         address: { type: String, required: true },

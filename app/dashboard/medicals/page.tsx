@@ -79,6 +79,7 @@ export default function MedicalList() {
 
                 <div className="flex gap-2">
                     <Link
+<<<<<<< HEAD
                         href="/dashboard/medicals/new"
                         className="bg-primary text-white px-4 py-1.5 rounded"
                     >
@@ -86,6 +87,15 @@ export default function MedicalList() {
                     </Link>
                     <Link href={"/dashboard"}
                         className="border border-primary px-4 py-1.5 rounded"> Export all </Link>
+=======
+                    href="/dashboard/medicals/new"
+                    className="bg-primary text-white px-4 py-1.5 rounded"
+                >
+                    Add New
+                </Link>
+                <Link href={"/dashboard"}
+                className="border border-primary px-4 py-1.5 rounded"> Export all </Link>
+>>>>>>> 364f04919aaf2998df1f3f2bc669bd415b4d92a3
                 </div>
             </div>
 

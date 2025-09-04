@@ -21,6 +21,7 @@ export async function connectDB(): Promise<Connection> {
     }
 
     cached.conn = await cached.promise;
+    console.log("Db Connection....")
     return cached.conn;
 }
 
