@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, Briefcase, Settings, HelpCircle, ClipboardList } from "lucide-react";
+import { Home, UsersRound, Settings, HelpCircle, Hospital, PlaneTakeoff, ClipboardList } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // for active link
@@ -10,10 +10,10 @@ const Sidebar = () => {
 
     const navItems = [
         { name: "Overview", href: "/dashboard", icon: <Home size={18} /> },
-        { name: "Candidates", href: "/dashboard/candidates", icon: <Briefcase size={18} /> },
+        { name: "Candidates", href: "/dashboard/candidates", icon: <UsersRound size={18} /> },
         { name: "Visas", href: "/dashboard/visas", icon: <ClipboardList size={18} /> },
-        { name: "Medicals", href: "/dashboard/medicals", icon: <ClipboardList size={18} /> },
-        { name: "Flights", href: "/dashboard/flights", icon: <ClipboardList size={18} /> },
+        { name: "Medicals", href: "/dashboard/medicals", icon: <Hospital size={18} /> },
+        { name: "Flights", href: "/dashboard/flights", icon: <PlaneTakeoff size={18} /> },
     ];
 
     const bottomItems = [

@@ -15,11 +15,19 @@ export default function Home() {
           width={225}
           height={72}
         />
+<<<<<<< HEAD
+
+      </div>
+
+      {/* Go to Dashboard Button */}
+      <Link
+=======
        
       </div>
 
       {/* Go to Dashboard Button */}
      <Link
+>>>>>>> 364f04919aaf2998df1f3f2bc669bd415b4d92a3
         href="/dashboard"
         className="group flex items-center justify-center gap-2 
                    bg-primary text-white font-medium 
