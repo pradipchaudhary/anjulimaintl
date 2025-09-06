@@ -29,15 +29,13 @@ interface RouteContext {
 //     }
 // }
 
-
-export async function GET(
-    req: NextRequest,
-    context: { params: { id: string } }
-) {
+// GET medical by ID
+export async function GET(req: NextRequest, context: any) {
     try {
         await connectDB();
 
-        const { id } = context.params;
+        // Safely extract id
+        const { id } = (await context.params) as { id: string };
 
         const record: IMedical | null = await Medical.findById(id);
 
