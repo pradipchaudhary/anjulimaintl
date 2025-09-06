@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 
 // Define the form type
 interface MedicalForm {
-  sn: number | "";
   name: string;
   email: string;
   address: string;
@@ -14,7 +13,6 @@ interface MedicalForm {
 
 export default function AddMedical() {
   const [form, setForm] = useState<MedicalForm>({
-    sn: "",
     name: "",
     email: "",
     address: "",
@@ -28,18 +26,13 @@ export default function AddMedical() {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: name === "sn" ? Number(value) : value,
+      [name]: value,
     }));
   };
 
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("hello...")
-    if (form.sn === "" || isNaN(form.sn)) {
-      alert("SN must be a valid number");
-      return;
-    }
 
     try {
       const res = await fetch("/api/medicals", {
@@ -47,13 +40,22 @@ export default function AddMedical() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(form),
       });
-      console.log("test....")
-      if (!res.ok) throw new Error("Failed to add record");
 
-      router.push("/dashboard/medicals");
-    } catch (err) {
-      console.error(err);
-      alert("Error adding medical record");
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || "Failed to add record");
+      }
+
+      await res.json(); // wait for response
+      router.push("/dashboard/medicals"); // redirect
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error:", err.message);
+        alert("Error adding medical record: " + err.message);
+      } else {
+        console.error("Unexpected error:", err);
+        alert("An unexpected error occurred.");
+      }
     }
   };
 
@@ -64,28 +66,10 @@ export default function AddMedical() {
       </h1>
 
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* SN */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Serial Number
-          </label>
-          <input
-            type="number"
-            name="sn"
-            placeholder="Enter SN"
-            value={form.sn}
-            onChange={handleChange}
-            required
-            className="w-full border border-gray-300 rounded-lg px-4 py-2 
-                       focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
-                       transition duration-200"
-          />
-        </div>
-
         {/* Name */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Name
+            Medical Name
           </label>
           <input
             type="text"
@@ -95,7 +79,7 @@ export default function AddMedical() {
             onChange={handleChange}
             required
             className="w-full border border-gray-300 rounded-lg px-4 py-2 
-                       focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
                        transition duration-200"
           />
         </div>
@@ -113,7 +97,7 @@ export default function AddMedical() {
             onChange={handleChange}
             required
             className="w-full border border-gray-300 rounded-lg px-4 py-2 
-                       focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
                        transition duration-200"
           />
         </div>
@@ -131,7 +115,7 @@ export default function AddMedical() {
             onChange={handleChange}
             required
             className="w-full border border-gray-300 rounded-lg px-4 py-2 
-                       focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
                        transition duration-200"
           />
         </div>
@@ -142,14 +126,14 @@ export default function AddMedical() {
             Phone
           </label>
           <input
-            type="text"
+            type="tel"
             name="phone"
             placeholder="Enter phone number"
             value={form.phone}
             onChange={handleChange}
             required
             className="w-full border border-gray-300 rounded-lg px-4 py-2 
-                       focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary
+                       focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500
                        transition duration-200"
           />
         </div>
@@ -157,8 +141,8 @@ export default function AddMedical() {
         {/* Submit Button */}
         <button
           type="submit"
-          className="w-full bg-primary text-white font-medium py-3 rounded-lg 
-                     shadow-md hover:bg-secondary hover:shadow-lg 
+          className="w-full bg-indigo-600 text-white font-medium py-3 rounded-lg 
+                     shadow-md hover:bg-indigo-700 hover:shadow-lg 
                      transition-all duration-300"
         >
           Save Record

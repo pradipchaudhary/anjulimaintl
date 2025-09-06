@@ -1,14 +1,41 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Medical from "@/models/Medical";
+import Medical, { IMedical } from "@/models/Medical";
 
-// Update medical record
-export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+// Define a proper context type for dynamic routes
+interface RouteContext {
+    params: { id: string } | Promise<{ id: string }>;
+}
+
+// GET medical by ID
+export async function GET(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
+
+        // Await params if it's a Promise
+        const { id } = (context.params instanceof Promise ? await context.params : context.params);
+
+        const record: IMedical | null = await Medical.findById(id);
+
+        if (!record) {
+            return NextResponse.json({ error: "Record not found" }, { status: 404 });
+        }
+
+        return NextResponse.json(record, { status: 200 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        return NextResponse.json({ error: message }, { status: 500 });
+    }
+}
+
+// UPDATE medical by ID
+export async function PUT(req: NextRequest, context: RouteContext) {
+    try {
+        await connectDB();
+
+        const { id } = context.params instanceof Promise ? await context.params : context.params;
         const body = await req.json();
 
-        const { id } = await context.params; // unwrap the promise
         const updated = await Medical.findByIdAndUpdate(id, body, { new: true });
 
         if (!updated) {
@@ -22,11 +49,13 @@ export async function PUT(req: NextRequest, context: { params: Promise<{ id: str
     }
 }
 
-// Delete medical record
-export async function DELETE(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+// DELETE medical by ID
+export async function DELETE(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const { id } = await context.params;
+
+        const { id } = context.params instanceof Promise ? await context.params : context.params;
+
         const deleted = await Medical.findByIdAndDelete(id);
 
         if (!deleted) {
