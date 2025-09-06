@@ -2,16 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Medical, { IMedical } from "@/models/Medical";
 
-// Helper type for context
-type RouteContext = {
-    params: { id: string };
-};
+// Define a proper context type for dynamic routes
+interface RouteContext {
+    params: {
+        id: string;
+    };
+}
 
 // GET medical by ID
 export async function GET(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
         const { id } = context.params;
+
         const record: IMedical | null = await Medical.findById(id);
 
         if (!record) {
@@ -30,7 +33,7 @@ export async function PUT(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
         const { id } = context.params;
-        const body: Partial<IMedical> = await req.json();
+        const body = await req.json();
 
         const updated = await Medical.findByIdAndUpdate(id, body, { new: true });
 
@@ -50,6 +53,7 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
         const { id } = context.params;
+
         const deleted = await Medical.findByIdAndDelete(id);
 
         if (!deleted) {
