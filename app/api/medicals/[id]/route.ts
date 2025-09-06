@@ -10,10 +10,11 @@ interface RouteContext {
 }
 
 // GET medical by ID
-export async function GET(req: NextRequest, context: RouteContext) {
+export async function GET(req: NextRequest, context: { params: { id: string } } | any) {
     try {
         await connectDB();
-        const { id } = context.params;
+
+        const { id } = context.params as { id: string };
 
         const record: IMedical | null = await Medical.findById(id);
 
@@ -27,6 +28,7 @@ export async function GET(req: NextRequest, context: RouteContext) {
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
+
 
 // UPDATE medical by ID
 export async function PUT(req: NextRequest, context: RouteContext) {
