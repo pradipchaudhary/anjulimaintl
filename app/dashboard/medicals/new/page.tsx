@@ -48,9 +48,14 @@ export default function AddMedical() {
 
       await res.json(); // wait for response
       router.push("/dashboard/medicals"); // redirect
-    } catch (err: any) {
-      console.error("Error:", err.message);
-      alert("Error adding medical record: " + err.message);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("Error:", err.message);
+        alert("Error adding medical record: " + err.message);
+      } else {
+        console.error("Unexpected error:", err);
+        alert("An unexpected error occurred.");
+      }
     }
   };
 
