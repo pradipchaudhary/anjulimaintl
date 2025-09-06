@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 
 interface IMedical {
-    sn: number;
     name: string;
     email: string;
     address: string;
@@ -17,7 +16,6 @@ export default function EditMedical() {
     const id = pathname.split("/").pop()!; // Get ID from URL
 
     const [form, setForm] = useState<IMedical>({
-        sn: 0,
         name: "",
         email: "",
         address: "",
@@ -48,7 +46,7 @@ export default function EditMedical() {
         const { name, value } = e.target;
         setForm((prev) => ({
             ...prev,
-            [name]: name === "sn" ? Number(value) : value,
+            [name]: value,
         }));
     };
 
@@ -74,15 +72,6 @@ export default function EditMedical() {
         <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded mt-10">
             <h1 className="text-2xl font-bold mb-4">Edit Medical Record</h1>
             <form onSubmit={handleSubmit} className="grid gap-4">
-                <input
-                    type="number"
-                    name="sn"
-                    placeholder="SN"
-                    value={form.sn}
-                    onChange={handleChange}
-                    required
-                    className="border p-2 rounded"
-                />
                 <input
                     type="text"
                     name="name"
@@ -119,7 +108,7 @@ export default function EditMedical() {
                     required
                     className="border p-2 rounded"
                 />
-                <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded">
+                <button type="submit" className="bg-primary text-white px-4 py-2 rounded">
                     Update
                 </button>
             </form>

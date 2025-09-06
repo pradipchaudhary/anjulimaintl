@@ -2,6 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Medical from "@/models/Medical";
 
+
+
+export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+    try {
+        await connectDB();
+        const { id } = params;
+        const record = await Medical.findById(id).lean();
+        if (!record) return NextResponse.json({ error: "Not found" }, { status: 404 });
+        return NextResponse.json(record);
+    } catch (err) {
+        return NextResponse.json({ error: (err as Error).message }, { status: 500 });
+    }
+}
+
+
 // Update medical record
 export async function PUT(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {

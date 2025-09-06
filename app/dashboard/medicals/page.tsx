@@ -104,9 +104,9 @@ export default function MedicalList() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-100">
                         {filteredRecords.length ? (
-                            filteredRecords.map((r) => (
+                            filteredRecords.map((r, i) => (
                                 <tr key={r._id} className="hover:bg-gray-50">
-                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{r.sn}</td>
+                                    <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{i + 1}</td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{r.name}</td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{r.email}</td>
                                     <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{r.address}</td>
