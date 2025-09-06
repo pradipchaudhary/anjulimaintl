@@ -10,11 +10,34 @@ interface RouteContext {
 }
 
 // GET medical by ID
-export async function GET(req: NextRequest, context: { params: { id: string } } | any) {
+// export async function GET(req: NextRequest, context: { params: { id: string } } | any) {
+//     try {
+//         await connectDB();
+
+//         const { id } = context.params as { id: string };
+
+//         const record: IMedical | null = await Medical.findById(id);
+
+//         if (!record) {
+//             return NextResponse.json({ error: "Record not found" }, { status: 404 });
+//         }
+
+//         return NextResponse.json(record, { status: 200 });
+//     } catch (error: unknown) {
+//         const message = error instanceof Error ? error.message : "Something went wrong";
+//         return NextResponse.json({ error: message }, { status: 500 });
+//     }
+// }
+
+
+export async function GET(
+    req: NextRequest,
+    context: { params: { id: string } }
+) {
     try {
         await connectDB();
 
-        const { id } = context.params as { id: string };
+        const { id } = context.params;
 
         const record: IMedical | null = await Medical.findById(id);
 
@@ -24,11 +47,11 @@ export async function GET(req: NextRequest, context: { params: { id: string } } 
 
         return NextResponse.json(record, { status: 200 });
     } catch (error: unknown) {
-        const message = error instanceof Error ? error.message : "Something went wrong";
+        const message =
+            error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
-
 
 // UPDATE medical by ID
 export async function PUT(req: NextRequest, context: RouteContext) {
