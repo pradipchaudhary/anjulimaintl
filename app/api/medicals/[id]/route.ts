@@ -1,16 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Medical from "@/models/Medical";
+import Medical, { IMedical } from "@/models/Medical";
 
+// Helper type for context
+type RouteContext = {
+    params: { id: string };
+};
 
 // GET medical by ID
-export async function GET(
-    req: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function GET(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const record = await Medical.findById(params.id);
+        const { id } = context.params;
+        const record: IMedical | null = await Medical.findById(id);
 
         if (!record) {
             return NextResponse.json({ error: "Record not found" }, { status: 404 });
@@ -24,15 +26,13 @@ export async function GET(
 }
 
 // UPDATE medical by ID
-export async function PUT(
-    req: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function PUT(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const body = await req.json();
+        const { id } = context.params;
+        const body: Partial<IMedical> = await req.json();
 
-        const updated = await Medical.findByIdAndUpdate(params.id, body, { new: true });
+        const updated = await Medical.findByIdAndUpdate(id, body, { new: true });
 
         if (!updated) {
             return NextResponse.json({ error: "Record not found" }, { status: 404 });
@@ -45,15 +45,12 @@ export async function PUT(
     }
 }
 
-
 // DELETE medical by ID
-export async function DELETE(
-    req: NextRequest,
-    { params }: { params: { id: string } }
-) {
+export async function DELETE(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const deleted = await Medical.findByIdAndDelete(params.id);
+        const { id } = context.params;
+        const deleted = await Medical.findByIdAndDelete(id);
 
         if (!deleted) {
             return NextResponse.json({ error: "Record not found" }, { status: 404 });
