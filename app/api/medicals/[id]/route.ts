@@ -45,8 +45,7 @@ export async function GET(req: NextRequest, context: any) {
 
         return NextResponse.json(record, { status: 200 });
     } catch (error: unknown) {
-        const message =
-            error instanceof Error ? error.message : "Something went wrong";
+        const message = error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
