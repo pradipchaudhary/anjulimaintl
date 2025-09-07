@@ -1,84 +1,94 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-interface IVisa {
+interface Visa {
     _id: string;
     ltNo: string;
     companyName: string;
     qty: number;
     visaStamped: number;
     remaining: number;
+    status: "pending" | "active" | "finished";
     visaNumber?: string;
     sponsorId?: string;
     fileExpireDate?: string;
-    excelFilePath?: string;
-    isActive?: boolean;
-    createdAt?: string;
-    updatedAt?: string;
+    remark?: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
-export default function VisasTable() {
-    const [data, setData] = useState<IVisa[]>([]);
-    const [loading, setLoading] = useState(true);
+export default function VisaTable() {
+    const [visas, setVisas] = useState<Visa[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        fetch("/api/visas")
-            .then((res) => res.json())
-            .then((visas) => setData(visas))
-            .finally(() => setLoading(false));
+        async function fetchVisas() {
+            try {
+                const res = await fetch("/api/visas");
+                if (!res.ok) throw new Error("Failed to fetch visas");
+                const data: Visa[] = await res.json();
+                setVisas(data);
+            } catch (err: any) {
+                setError(err.message || "Something went wrong");
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchVisas();
     }, []);
 
-    const fmtDate = (iso?: string) => (iso ? new Date(iso).toLocaleString() : "-");
-
-    if (loading) return <p className="p-4">Loading visas...</p>;
+    if (loading) return <p className="text-center mt-6">Loading visas...</p>;
+    if (error) return <p className="text-center mt-6 text-red-500">{error}</p>;
 
     return (
-        <div className="max-w-full mx-auto p-4">
-            {/* <h2 className="text-2xl font-semibold mb-4">Visas</h2> */}
-            <div className="overflow-x-auto bg-white shadow rounded-lg">
-                <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">LT No</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                            <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Qty</th>
-                            <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Visa Stamped</th>
-                            <th className="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Remaining</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Visa #</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sponsor ID</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File Expiry</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Excel</th>
-                            <th className="px-4 py-2 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">Active</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                            <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>
+        <div className="overflow-x-auto">
+            <table className="min-w-full border border-gray-200 divide-y divide-gray-200 rounded-lg shadow-sm">
+                <thead className="bg-gray-50">
+                    <tr>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">LT No</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Company</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Qty</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Visa Stamped</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Remaining</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Status</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Visa Number</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Sponsor ID</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Expire Date</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Remark</th>
+                        <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Created At</th>
+                    </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                    {visas.map((visa) => (
+                        <tr key={visa._id}>
+                            <td className="px-4 py-2 text-sm">{visa.ltNo}</td>
+                            <td className="px-4 py-2 text-sm">{visa.companyName}</td>
+                            <td className="px-4 py-2 text-sm">{visa.qty}</td>
+                            <td className="px-4 py-2 text-sm">{visa.visaStamped}</td>
+                            <td className="px-4 py-2 text-sm">{visa.remaining}</td>
+                            <td className="px-4 py-2 text-sm">
+                                <span
+                                    className={`px-2 py-1 rounded text-white text-xs ${visa.status === "pending"
+                                        ? "bg-yellow-500"
+                                        : visa.status === "active"
+                                            ? "bg-blue-500"
+                                            : "bg-green-500"
+                                        }`}
+                                >
+                                    {visa.status}
+                                </span>
+                            </td>
+                            <td className="px-4 py-2 text-sm">{visa.visaNumber || "-"}</td>
+                            <td className="px-4 py-2 text-sm">{visa.sponsorId || "-"}</td>
+                            <td className="px-4 py-2 text-sm">{visa.fileExpireDate ? new Date(visa.fileExpireDate).toLocaleDateString() : "-"}</td>
+                            <td className="px-4 py-2 text-sm">{visa.remark || "-"}</td>
+                            <td className="px-4 py-2 text-sm">{new Date(visa.createdAt).toLocaleDateString()}</td>
                         </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-100">
-                        {data.map((v) => (
-                            <tr key={v._id}>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{v.ltNo}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{v.companyName}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-700">{v.qty}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-700">{v.visaStamped}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-right text-gray-700">{v.remaining}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{v.visaNumber ?? "-"}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{v.sponsorId ?? "-"}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{fmtDate(v.fileExpireDate)}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-blue-600 underline">
-                                    {v.excelFilePath ? <a href={v.excelFilePath} target="_blank" rel="noreferrer">Download</a> : "-"}
-                                </td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-center">
-                                    {v.isActive ? <span className="inline-block px-2 py-0.5 text-xs font-medium bg-green-100 text-green-800 rounded-full">Yes</span> :
-                                        <span className="inline-block px-2 py-0.5 text-xs font-medium bg-red-100 text-red-800 rounded-full">No</span>}
-                                </td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{fmtDate(v.createdAt)}</td>
-                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-700">{fmtDate(v.updatedAt)}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 }
