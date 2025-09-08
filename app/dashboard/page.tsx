@@ -44,16 +44,16 @@ export default function Dashboard() {
           </div>
 
           {/* 🟢 Placeholder for Active Visa */}
-          {/* <div className="bg-green-100 p-4 rounded-xl shadow">
+           <div className="bg-green-100 p-4 rounded-xl shadow">
             <h3 className="text-md font-medium">Total Active Visas</h3>
             <p className="text-2xl font-bold text-green-700">42</p>
-          </div> */}
+          </div> 
 
           {/* 🟢 Placeholder for Candidates */}
-          {/* <div className="bg-yellow-100 p-4 rounded-xl shadow">
+           <div className="bg-yellow-100 p-4 rounded-xl shadow">
             <h3 className="text-md font-medium">Total Candidates</h3>
             <p className="text-2xl font-bold text-yellow-700">120</p>
-          </div> */}
+          </div> 
         </div>
       </section>
     </div>
