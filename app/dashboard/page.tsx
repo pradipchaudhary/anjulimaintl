@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Building2, FileBadge, Users } from "lucide-react"; // ✅ icons
 
 // Define the shape of the response from the API
 interface MedicalCountResponse {
@@ -31,29 +32,52 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <section className="bg-white shadow rounded-xl p-6">
-        <h2 className="text-lg font-semibold">Dashboard Overview</h2>
+      <section className="bg-white shadow rounded-2xl p-8">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+          📊 Dashboard Overview
+        </h2>
 
-        <div className="grid grid-cols-3 gap-6 mt-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* ✅ Total Medical Centers */}
-          <div className="bg-blue-100 p-4 rounded-xl shadow">
-            <h3 className="text-md font-medium">Total Medical Centers</h3>
-            <p className="text-2xl font-bold text-blue-700">
-              {totalMedical !== null ? totalMedical : "Loading..."}
-            </p>
+          <div className="bg-gradient-to-r from-blue-100 to-blue-200 p-6 rounded-2xl shadow flex items-center gap-4">
+            <div className="bg-blue-500 text-white p-3 rounded-xl">
+              <Building2 size={28} />
+            </div>
+            <div>
+              <h3 className="text-sm text-gray-600 font-medium">
+                Total Medical Centers
+              </h3>
+              <p className="text-3xl font-bold text-blue-700">
+                {totalMedical !== null ? totalMedical : "Loading..."}
+              </p>
+            </div>
           </div>
 
-          {/* 🟢 Placeholder for Active Visa */}
-           <div className="bg-green-100 p-4 rounded-xl shadow">
-            <h3 className="text-md font-medium">Total Active Visas</h3>
-            <p className="text-2xl font-bold text-green-700">42</p>
-          </div> 
+          {/* 🟢 Total Active Visas */}
+          <div className="bg-gradient-to-r from-green-100 to-green-200 p-6 rounded-2xl shadow flex items-center gap-4">
+            <div className="bg-green-500 text-white p-3 rounded-xl">
+              <FileBadge size={28} />
+            </div>
+            <div>
+              <h3 className="text-sm text-gray-600 font-medium">
+                Total Active Visas
+              </h3>
+              <p className="text-3xl font-bold text-green-700">42</p>
+            </div>
+          </div>
 
-          {/* 🟢 Placeholder for Candidates */}
-           <div className="bg-yellow-100 p-4 rounded-xl shadow">
-            <h3 className="text-md font-medium">Total Candidates</h3>
-            <p className="text-2xl font-bold text-yellow-700">120</p>
-          </div> 
+          {/* 🟡 Total Candidates */}
+          <div className="bg-gradient-to-r from-yellow-100 to-yellow-200 p-6 rounded-2xl shadow flex items-center gap-4">
+            <div className="bg-yellow-500 text-white p-3 rounded-xl">
+              <Users size={28} />
+            </div>
+            <div>
+              <h3 className="text-sm text-gray-600 font-medium">
+                Total Candidates
+              </h3>
+              <p className="text-3xl font-bold text-yellow-700">120</p>
+            </div>
+          </div>
         </div>
       </section>
     </div>
