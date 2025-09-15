@@ -2,13 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Candidate from "@/models/Candidate";
 
+
+// Define a proper context type for dynamic routes
+interface RouteContext {
+    params: { id: string } | Promise<{ id: string }>;
+}
+
 // ===============================
 // GET candidate by ID
 // ===============================
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const { id } = context.params;
+
+        const { id } = context.params instanceof Promise ? await context.params : context.params;
 
         const candidate = await Candidate.findById(id).populate("company");
         if (!candidate) {
@@ -25,10 +32,12 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
 // ===============================
 // PUT update candidate by ID
 // ===============================
-export async function PUT(req: NextRequest, context: { params: { id: string } }) {
+export async function PUT(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const { id } = context.params;
+        // const { id } = context.params;
+
+        const { id } = context.params instanceof Promise ? await context.params : context.params;
         const body = await req.json();
 
         const updatedCandidate = await Candidate.findByIdAndUpdate(id, body, {
@@ -53,10 +62,12 @@ export async function PUT(req: NextRequest, context: { params: { id: string } })
 // ===============================
 // DELETE candidate by ID
 // ===============================
-export async function DELETE(req: NextRequest, context: { params: { id: string } }) {
+export async function DELETE(req: NextRequest, context: RouteContext) {
     try {
         await connectDB();
-        const { id } = context.params;
+        const { id } = context.params instanceof Promise ? await context.params : context.params;
+
+        // const { id } = context.params;
 
         const deletedCandidate = await Candidate.findByIdAndDelete(id);
 
