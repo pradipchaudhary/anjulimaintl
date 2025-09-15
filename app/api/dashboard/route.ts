@@ -32,8 +32,8 @@ export async function GET() {
             activeVisas,
             companies,
         });
-    } catch (err: any) {
-        console.error("Dashboard API Error:", err);
-        return NextResponse.json({ error: "Failed to fetch dashboard data" }, { status: 500 });
+    } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : "Something went wrong";
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
