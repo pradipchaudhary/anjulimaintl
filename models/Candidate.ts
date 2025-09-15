@@ -1,8 +1,67 @@
-import { Schema, model, models } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
 
-const CandidateSchema = new Schema(
+// 1️⃣ TypeScript Interface for Candidate
+export interface ICandidate extends Document {
+    // Personal Info
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    dateOfBirth: Date;
+    gender: "male" | "female" | "other";
+    nationality?: string;
+    address: string;
+    contactNumber: string;
+    email?: string;
+
+    // Passport Info
+    passportNumber: string;
+    passportIssueDate?: Date;
+    passportExpiryDate?: Date;
+    passportIssuedFrom?: string;
+
+    // Job Info
+    positionApplied: string;
+    company?: mongoose.Types.ObjectId; // ref => Company
+    demandLetterNo?: string;
+    contractPeriod?: number;
+
+    // Process Tracking
+    status:
+    | "registered"
+    | "medical"
+    | "visaProcessing"
+    | "training"
+    | "deployed"
+    | "finished";
+
+    // Medical
+    medicalStatus: "pending" | "passed" | "failed";
+    medicalCenter?: string;
+    medicalDate?: Date;
+
+    // Visa Info
+    visaNumber?: string;
+    visaStatus: "pending" | "approved" | "rejected";
+    mofaNumber?: string;
+    ticketNumber?: string;
+    departureDate?: Date;
+
+    // Reference / Agent
+    referenceName?: string;
+    referenceContact?: string;
+
+    // Misc
+    remark?: string;
+
+    // Auto
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+// 2️⃣ Mongoose Schema
+const CandidateSchema: Schema<ICandidate> = new Schema(
     {
-        // 🔹 Personal Information
+        // Personal Info
         firstName: { type: String, required: true, trim: true },
         middleName: { type: String, trim: true },
         lastName: { type: String, required: true, trim: true },
@@ -13,26 +72,33 @@ const CandidateSchema = new Schema(
         contactNumber: { type: String, required: true },
         email: { type: String, lowercase: true, trim: true },
 
-        // 🔹 Passport Information
-        passportNumber: { type: String, required: true, unique: true },
+        // Passport Info
+        passportNumber: { type: String, required: true, unique: true, trim: true },
         passportIssueDate: { type: Date },
         passportExpiryDate: { type: Date },
         passportIssuedFrom: { type: String },
 
-        // 🔹 Job Information
+        // Job Info
         positionApplied: { type: String, required: true },
-        company: { type: Schema.Types.ObjectId, ref: "Company" }, // link to employer
+        company: { type: Schema.Types.ObjectId, ref: "Company" },
         demandLetterNo: { type: String },
-        contractPeriod: { type: Number }, // in years
+        contractPeriod: { type: Number },
 
-        // 🔹 Process Status Tracking
+        // Process Tracking
         status: {
             type: String,
-            enum: ["registered", "medical", "visaProcessing", "training", "deployed", "finished"],
+            enum: [
+                "registered",
+                "medical",
+                "visaProcessing",
+                "training",
+                "deployed",
+                "finished",
+            ],
             default: "registered",
         },
 
-        // 🔹 Medical Status
+        // Medical
         medicalStatus: {
             type: String,
             enum: ["pending", "passed", "failed"],
@@ -41,21 +107,31 @@ const CandidateSchema = new Schema(
         medicalCenter: { type: String },
         medicalDate: { type: Date },
 
-        // 🔹 Visa / Approval Information
+        // Visa Info
         visaNumber: { type: String },
-        visaStatus: { type: String, enum: ["pending", "approved", "rejected"], default: "pending" },
-        mofaNumber: { type: String }, // Ministry of Foreign Affairs No
+        visaStatus: {
+            type: String,
+            enum: ["pending", "approved", "rejected"],
+            default: "pending",
+        },
+        mofaNumber: { type: String },
         ticketNumber: { type: String },
         departureDate: { type: Date },
 
-        // 🔹 Reference / Agent
+        // Reference
         referenceName: { type: String },
         referenceContact: { type: String },
 
-        // 🔹 Misc
-        remark: { type: String },
+        // Misc
+        remark: { type: String, trim: true, maxlength: 500 },
     },
-    { timestamps: true }
+    {
+        timestamps: true, // adds createdAt, updatedAt
+        toJSON: { virtuals: true },
+        toObject: { virtuals: true },
+    }
 );
 
-export default models.Candidate || model("Candidate", CandidateSchema);
+// 3️⃣ Export Candidate model
+export default mongoose.models.Candidate ||
+    mongoose.model<ICandidate>("Candidate", CandidateSchema);
