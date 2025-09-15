@@ -1,5 +1,6 @@
 "use client";
 
+
 import { Users, Briefcase, ClipboardList, CheckCircle2, AlertCircle, Building2 } from "lucide-react";
 
 export default function Dashboard() {
@@ -43,6 +44,9 @@ export default function Dashboard() {
                     <li>🏢 New Company <span className="font-semibold">Sky Overseas</span> registered</li>
                 </ul>
             </section>
+
         </div>
-    );
+      </section>
+    </div>
+  );
 }
