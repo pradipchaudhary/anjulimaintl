@@ -86,7 +86,7 @@ export default function MedicalList() {
                         Add New
                     </Link>
                     <Link href={"/dashboard/medicals/export"}
-                        className="border border-primary px-4 py-1.5 rounded"> Export all </Link>
+                        className="border border-primary px-4 py-1.5 rounded"> Ixport all </Link>
                 </div>
             </div>
 
