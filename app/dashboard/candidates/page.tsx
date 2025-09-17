@@ -11,6 +11,7 @@ interface ICandidate {
     lastName: string;
     dateOfBirth: string;
     gender: "male" | "female" | "other";
+    medicalStatus: "pending" | "passed" | "failed";
     nationality?: string;
     address: string;
     contactNumber: string;
@@ -35,6 +36,7 @@ export default function CandidatePage() {
             if (!res.ok) throw new Error("Failed to fetch candidates");
             const data: ICandidate[] = await res.json();
             setRecords(data);
+            console.log("data:", data)
             setFilteredRecords(data);
         } catch (err: unknown) {
             setError(err instanceof Error ? err.message : "Something went wrong");
@@ -101,7 +103,7 @@ export default function CandidatePage() {
                 <h1 className="text-2xl font-bold">Candidate Records</h1>
                 <Link
                     href="/dashboard/candidates/new"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow text-sm"
+                    className="bg-primary hover:bg-primary text-white px-4 py-2 rounded-lg shadow text-sm"
                 >
                     + Add New Candidate
                 </Link>
@@ -136,7 +138,7 @@ export default function CandidatePage() {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50 sticky top-0 z-10">
                             <tr>
-                                {["SN", "Name", "Passport No", "Position", "Status", "Actions"].map(
+                                {["SN", "Name", "Passport No", "dateOfBirth", "medicalStatus", "Position", "Status", "Actions"].map(
                                     (h) => (
                                         <th
                                             key={h}
@@ -157,6 +159,8 @@ export default function CandidatePage() {
                                             {r.firstName} {r.middleName ?? ""} {r.lastName}
                                         </td>
                                         <td className="px-4 py-3 text-sm">{r.passportNumber}</td>
+                                        <td className="px-4 py-3 text-sm">{r.dateOfBirth}</td>
+                                        <td className="px-4 py-3 text-sm">{r.medicalStatus}</td>
                                         <td className="px-4 py-3 text-sm">{r.positionApplied}</td>
                                         <td className="px-4 py-3 text-sm">
                                             <StatusBadge status={r.status} />

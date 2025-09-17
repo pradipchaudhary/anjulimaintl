@@ -60,7 +60,7 @@ export default function AddMedical() {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-8 bg-white shadow-md rounded-xl mt-10">
+    <div className="p-8 bg-white shadow-md rounded-xl mt-10">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">
         Add Medical Record
       </h1>
