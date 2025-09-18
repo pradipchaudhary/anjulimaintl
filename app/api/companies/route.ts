@@ -1,48 +1,55 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Visa from "@/models/Visa";
+import { Company } from "@/models/company.model";
 
-// GET all visas
+// ✅ GET all companies
 export async function GET() {
     try {
         await connectDB();
-        const visas = await Visa.find().sort({ createdAt: -1 });
-        return NextResponse.json(visas);
+        const companies = await Company.find().sort({ createdAt: -1 });
+        return NextResponse.json(companies, { status: 200 });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json({ error: message }, { status: 500 });
     }
 }
 
-// POST create a new visa
+// ✅ POST create a new company
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
         const body = await req.json();
-        const { ltNo, companyName, qty, visaStamped, status, visaNumber, sponsorId, fileExpireDate, remark } = body;
+        const { ltNo, companyName, qty, visaStamped = 0, status, visaNumber, sponsorId, document, remark } = body;
 
         // Basic validation
-        if (!ltNo || !companyName || qty == null || visaStamped == null || !status) {
-            return NextResponse.json({ error: "ltNo, companyName, qty, visaStamped, and status are required" }, { status: 400 });
+        if (!ltNo || !companyName || qty == null || status == null) {
+            return NextResponse.json(
+                { error: "ltNo, companyName, qty, and status are required" },
+                { status: 400 }
+            );
         }
 
-        // Create new visa
-        const visa = new Visa({
+        // Calculate remaining automatically
+        const remaining = qty - visaStamped;
+
+        // Create new company
+        const company = new Company({
             ltNo,
             companyName,
             qty,
             visaStamped,
-            status,          // ✅ manually set from API
+            remaining,     // ✅ auto-calc
             visaNumber,
             sponsorId,
-            fileExpireDate,
+            status,
+            document,
             remark,
         });
 
-        const newVisa = await visa.save(); // remaining will auto-calc via schema middleware
+        const newCompany = await company.save();
 
         return NextResponse.json(
-            { message: "Visa record created successfully", record: newVisa },
+            { message: "Company record created successfully", record: newCompany },
             { status: 201 }
         );
     } catch (error: unknown) {

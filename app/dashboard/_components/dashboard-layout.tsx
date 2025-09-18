@@ -8,21 +8,21 @@ type DashboardLayoutProps = {
 
 const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     return (
-        <div className="flex min-h-screen bg-gray-100">
-            {/* Sidebar - fixed height */}
-            <aside className="bg-white shadow-lg w-64 flex-shrink-0 h-screen">
+        <div className="flex">
+            {/* Sidebar (Fixed) */}
+            <aside className="fixed top-0 left-0 h-screen w-64 bg-white shadow-lg">
                 <Sidebar />
             </aside>
 
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col">
-                {/* Navbar */}
-                <header className="sticky top-0 z-20 bg-white shadow-sm flex-shrink-0">
+            {/* Main Content Area */}
+            <div className="flex-1 ml-64 flex flex-col min-h-screen overflow-hidden">
+                {/* Navbar (Fixed) */}
+                <header className="fixed top-0 left-64 right-0 h-16">
                     <Navbar />
                 </header>
 
                 {/* Scrollable Page Content */}
-                <main className="flex-1 p-6 overflow-auto">
+                <main className="flex-1 mt-16 p-6">
                     {children}
                 </main>
             </div>

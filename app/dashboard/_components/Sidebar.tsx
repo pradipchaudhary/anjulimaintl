@@ -30,10 +30,10 @@ const Sidebar = () => {
                     <Image
                         src="/logo.jpg"
                         alt="Logo"
-                        width={150}
+                        width={170}
                         height={80}
                         priority
-                        className="h-auto w-auto"
+                    // className="h-auto w-auto"
                     />
                 </div>
 
