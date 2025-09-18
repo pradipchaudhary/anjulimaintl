@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
-import Medical from "@/models/Medical";
+import Medical from "@/models/medical.model";
 import { connectDB } from "@/lib/db";
 
 export async function POST(req: NextRequest) {
@@ -36,7 +36,6 @@ export async function POST(req: NextRequest) {
 
         // Map data to schema
         const medicalData = rows.map((row, index) => ({
-            sn: row["SN"] || row["S.N."] || index + 1, // ✅ Ensure SN is always filled
             name: row["Name"] || row["name"] || "",
             email: row["Email"] || row["email"] || "",
             address: row["Address"] || row["address"] || "",
@@ -52,11 +51,13 @@ export async function POST(req: NextRequest) {
             success: true,
             count: medicalData.length,
         });
-    } catch (error: any) {
-        console.error("❌ Error importing:", error);
+    } catch (error: unknown) {
+
+        const message = error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json(
-            { error: error.message || "Failed to import data" },
+            { error: message },
             { status: 500 }
         );
     }
 }
+
