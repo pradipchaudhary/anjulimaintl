@@ -1,6 +1,6 @@
-// types.ts
+import { Document } from "mongoose";
 
-export interface ICompany {
+export interface ICompany extends Document {
     _id: string;
     ltNo: string;
     companyName: string;

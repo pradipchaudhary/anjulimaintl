@@ -1,4 +1,4 @@
-import { ICompany } from "../types";
+import { ICompany } from "@/models/company.model";
 
 /**
  * Truncate a long text to a limited number of words
