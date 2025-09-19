@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import Link from "next/link";
 import { Edit, Trash2, Plus, Eye, X, Clipboard } from "lucide-react";
 import { statusClass, truncateText } from "@/utils/utils";
 import CompanyForm from "./CompanyForm";

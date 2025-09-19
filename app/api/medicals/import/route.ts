@@ -3,6 +3,13 @@ import * as XLSX from "xlsx";
 import Medical from "@/models/medical.model";
 import { connectDB } from "@/lib/db";
 
+interface ExcelRow {
+    name: string;
+    email?: string;
+    address?: string;
+    phone?: string;
+}
+
 export async function POST(req: NextRequest) {
     try {
         await connectDB();
@@ -32,14 +39,15 @@ export async function POST(req: NextRequest) {
         const sheet = workbook.Sheets[sheetName];
 
         // Convert Excel → JSON
-        const rows: any[] = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+        const rows: ExcelRow[] = XLSX.utils.sheet_to_json<ExcelRow>(sheet, { defval: "" });
+        // const rows: any[] = XLSX.utils.sheet_to_json(sheet, { defval: "" });
 
         // Map data to schema
-        const medicalData = rows.map((row, index) => ({
-            name: row["Name"] || row["name"] || "",
-            email: row["Email"] || row["email"] || "",
-            address: row["Address"] || row["address"] || "",
-            phone: row["Phone"] || row["phone"] || "",
+        const medicalData = rows.map((row) => ({
+            name: (row["name"] ?? row["name"] ?? "") as string,
+            email: (row["email"] ?? row["email"] ?? "") as string,
+            address: (row["address"] ?? row["address"] ?? "") as string,
+            phone: (row["phone"] ?? row["phone"] ?? "") as string,
         }));
 
         // Insert into DB
