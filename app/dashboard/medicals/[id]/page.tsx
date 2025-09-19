@@ -69,7 +69,7 @@ export default function EditMedical() {
     if (loading) return <p className="p-6">Loading...</p>;
 
     return (
-        <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded mt-10">
+        <div className="p-6 bg-white shadow rounded mt-10">
             <h1 className="text-2xl font-bold mb-4">Edit Medical Record</h1>
             <form onSubmit={handleSubmit} className="grid gap-4">
                 <input

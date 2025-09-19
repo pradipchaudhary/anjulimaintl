@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Visa from "@/models/Visa";
+import { Company } from "@/models/company.model";
 
 // Define a proper context type for dynamic routes
 interface RouteContext {
@@ -15,13 +15,13 @@ export async function GET(req: NextRequest, context: RouteContext) {
         // Await params if it's a Promise
         const { id } = context.params instanceof Promise ? await context.params : context.params;
 
-        const visa = await Visa.findById(id);
+        const company = await Company.findById(id);
 
-        if (!visa) {
-            return NextResponse.json({ error: "Visa not found" }, { status: 404 });
+        if (!company) {
+            return NextResponse.json({ error: "Company not found" }, { status: 404 });
         }
 
-        return NextResponse.json(visa, { status: 200 });
+        return NextResponse.json(company, { status: 200 });
     } catch (error: unknown) {
         const message = error instanceof Error ? error.message : "Something went wrong";
         return NextResponse.json({ error: message }, { status: 500 });
@@ -36,10 +36,10 @@ export async function PUT(req: NextRequest, context: RouteContext) {
         const { id } = context.params instanceof Promise ? await context.params : context.params;
         const body = await req.json();
 
-        const updatedVisa = await Visa.findByIdAndUpdate(id, body, { new: true });
+        const updatedVisa = await Company.findByIdAndUpdate(id, body, { new: true });
 
         if (!updatedVisa) {
-            return NextResponse.json({ error: "Visa not found" }, { status: 404 });
+            return NextResponse.json({ error: "Company not found" }, { status: 404 });
         }
 
         return NextResponse.json({ message: "Updated successfully", record: updatedVisa });
@@ -56,10 +56,10 @@ export async function DELETE(req: NextRequest, context: RouteContext) {
 
         const { id } = context.params instanceof Promise ? await context.params : context.params;
 
-        const deletedVisa = await Visa.findByIdAndDelete(id);
+        const deletedVisa = await Company.findByIdAndDelete(id);
 
         if (!deletedVisa) {
-            return NextResponse.json({ error: "Visa not found" }, { status: 404 });
+            return NextResponse.json({ error: "Company not found" }, { status: 404 });
         }
 
         return NextResponse.json({ message: "Deleted successfully" });

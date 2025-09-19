@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Visa from "@/models/Visa";
 import Candidate from "@/models/Candidate";
-import Company from "@/models/Company";
+import { Company } from "@/models/company.model";
 
 export async function GET() {
     try {

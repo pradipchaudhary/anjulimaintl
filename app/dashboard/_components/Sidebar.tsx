@@ -14,6 +14,7 @@ const Sidebar = () => {
         { name: "Visas", href: "/dashboard/visas", icon: <ClipboardList size={18} /> },
         { name: "Medicals", href: "/dashboard/medicals", icon: <Hospital size={18} /> },
         { name: "Flights", href: "/dashboard/flights", icon: <PlaneTakeoff size={18} /> },
+        { name: "Companies", href: "/dashboard/companies", icon: <UsersRound size={18} /> },
     ];
 
     const bottomItems = [
@@ -30,10 +31,10 @@ const Sidebar = () => {
                     <Image
                         src="/logo.jpg"
                         alt="Logo"
-                        width={150}
+                        width={170}
                         height={80}
                         priority
-                        className="h-auto w-auto"
+                    // className="h-auto w-auto"
                     />
                 </div>
 

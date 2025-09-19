@@ -4,7 +4,7 @@ import { Search, Bell } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 
-export default function Navbar() {
+const Navbar = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -81,3 +81,6 @@ export default function Navbar() {
         </header>
     );
 }
+
+
+export default Navbar;
