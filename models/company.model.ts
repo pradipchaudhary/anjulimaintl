@@ -3,15 +3,14 @@ import mongoose, { Document, Schema } from "mongoose";
 // 1️⃣ TypeScript Interface
 export interface ICompany extends Document {
     ltNo?: string;                                   // Labor/License No
-    companyName: string;                            // Company Name
-    qty: number;                                    // Total quota
-    visaStamped: number;                            // Used / stamped visas
-    remaining: number;                              // Remaining visas (auto-calculated)
-    visaNumber?: string;                            // Optional
-    sponsorId?: string;                             // Optional
+    companyName: string;                             // Company Name
+    qty: number;                                     // Total quota
+    visaStamped: number;                             // Used / stamped visas
+    remaining: number;                               // Remaining visas (auto-calculated)
+    visaNumber?: string;                             // Optional
+    sponsorId?: string;                              // Optional
     status: "pending" | "active" | "finished";      // Status of demand
-    document: "curror" | "pending" | "received";    // Document status
-    remark?: string;                                // Notes
+    remark?: string;                                 // Notes
     createdAt: Date;
     updatedAt: Date;
 }
@@ -34,33 +33,43 @@ const CompanySchema: Schema<ICompany> = new Schema(
             required: true,
         },
 
-        document: {
-            type: String,
-            enum: ["curror", "pending", "received"],
-            default: "pending",
-            required: true,
-        },
-
         remark: { type: String, trim: true },
     },
     { timestamps: true }
 );
 
-// 3️⃣ Auto-calculate `remaining` before save
+// 3️⃣ Auto-calculate `remaining` and update status before save
 CompanySchema.pre<ICompany>("save", function (next) {
     this.remaining = this.qty - this.visaStamped;
+
+    // Auto-set status to 'finished' if all visas are stamped
+    if (this.visaStamped >= this.qty) {
+        this.status = "finished";
+    }
+
     next();
 });
 
-// 4️⃣ Auto-calculate `remaining` before update (findOneAndUpdate, updateOne, etc.)
+// 4️⃣ Auto-calculate `remaining` and status before update (findOneAndUpdate, updateOne, etc.)
 CompanySchema.pre("findOneAndUpdate", function (next) {
     const update: any = this.getUpdate();
-    if (update.qty !== undefined || update.visaStamped !== undefined) {
-        const qty = update.qty ?? this.get("qty");
-        const visaStamped = update.visaStamped ?? this.get("visaStamped");
-        update.remaining = qty - visaStamped;
-        this.setUpdate(update);
+
+    // Get current values
+    const currentQty = this.get("qty");
+    const currentVisaStamped = this.get("visaStamped");
+
+    const newQty = update.qty !== undefined ? update.qty : currentQty;
+    const newVisaStamped = update.visaStamped !== undefined ? update.visaStamped : currentVisaStamped;
+
+    // Calculate remaining
+    update.remaining = newQty - newVisaStamped;
+
+    // Auto-set status to 'finished' if all visas are stamped
+    if (newVisaStamped >= newQty) {
+        update.status = "finished";
     }
+
+    this.setUpdate(update);
     next();
 });
 

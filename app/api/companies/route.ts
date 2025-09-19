@@ -19,7 +19,15 @@ export async function POST(req: NextRequest) {
     try {
         await connectDB();
         const body = await req.json();
-        const { ltNo, companyName, qty, visaStamped = 0, status, visaNumber, sponsorId, document, remark } = body;
+        const { ltNo, companyName, qty, visaStamped = 0, visaNumber, sponsorId, status, remark } = body;
+
+        // Prevent invalid stamped count
+        if (visaStamped > qty) {
+            return NextResponse.json(
+                { error: "Visa Stamped cannot be greater than total quota." },
+                { status: 400 }
+            );
+        }
 
         // Basic validation
         if (!ltNo || !companyName || qty == null || status == null) {
@@ -42,7 +50,6 @@ export async function POST(req: NextRequest) {
             visaNumber,
             sponsorId,
             status,
-            document,
             remark,
         });
 
