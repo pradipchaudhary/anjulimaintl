@@ -22,7 +22,6 @@ export default function ImportMedicalPage() {
         const formData = new FormData();
         formData.append("file", file);
 
-        // ✅ Debug log
         console.log("Uploading file:", file.name, file.type, file.size);
 
         try {
@@ -38,8 +37,13 @@ export default function ImportMedicalPage() {
 
             const data = await res.json();
             setMessage(`✅ Imported ${data.count} records successfully.`);
-        } catch (error: any) {
-            setMessage("❌ Error importing data: " + error.message);
+        } catch (error: unknown) {
+            // ✅ Properly narrow unknown type
+            if (error instanceof Error) {
+                setMessage("❌ Error importing data: " + error.message);
+            } else {
+                setMessage("❌ Error importing data");
+            }
         } finally {
             setLoading(false);
         }
