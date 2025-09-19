@@ -16,8 +16,7 @@ export async function POST(req: NextRequest) {
 
         // Get formData
         const formData = await req.formData();
-        const file = formData.get("file") as File;
-
+        const file = formData.get("file") as File | null;
 
         if (!file) {
             console.error("⚠️ No file found in FormData:", [...formData.entries()]);
@@ -25,10 +24,6 @@ export async function POST(req: NextRequest) {
         }
 
         console.log("✅ Received file:", file.name, file.size, file.type);
-
-        if (!file) {
-            return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
-        }
 
         // Convert File → Buffer
         const buffer = Buffer.from(await file.arrayBuffer());
@@ -39,15 +34,14 @@ export async function POST(req: NextRequest) {
         const sheet = workbook.Sheets[sheetName];
 
         // Convert Excel → JSON
-        const rows: ExcelRow[] = XLSX.utils.sheet_to_json<ExcelRow>(sheet, { defval: "" });
-        // const rows: any[] = XLSX.utils.sheet_to_json(sheet, { defval: "" });
+        const rowsRaw = XLSX.utils.sheet_to_json<Record<string, unknown>>(sheet, { defval: "" });
 
-        // Map data to schema
-        const medicalData = rows.map((row) => ({
-            name: (row["name"] ?? row["name"] ?? "") as string,
-            email: (row["email"] ?? row["email"] ?? "") as string,
-            address: (row["address"] ?? row["address"] ?? "") as string,
-            phone: (row["phone"] ?? row["phone"] ?? "") as string,
+        // Map data to schema with proper type
+        const medicalData: ExcelRow[] = rowsRaw.map((row) => ({
+            name: String(row["name"] ?? row["Name"] ?? ""),
+            email: String(row["email"] ?? row["Email"] ?? ""),
+            address: String(row["address"] ?? row["Address"] ?? ""),
+            phone: String(row["phone"] ?? row["Phone"] ?? ""),
         }));
 
         // Insert into DB
@@ -60,12 +54,7 @@ export async function POST(req: NextRequest) {
             count: medicalData.length,
         });
     } catch (error: unknown) {
-
         const message = error instanceof Error ? error.message : "Something went wrong";
-        return NextResponse.json(
-            { error: message },
-            { status: 500 }
-        );
+        return NextResponse.json({ error: message }, { status: 500 });
     }
 }
-
