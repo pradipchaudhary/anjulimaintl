@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useMemo } from "react";
-import { Edit, Trash2, Plus, Eye, X, Clipboard } from "lucide-react";
+import { Edit, Trash2, Plus, Eye, X, Clipboard, Users, CheckCircle, Clock, Activity, Briefcase } from "lucide-react";
 import { statusClass, truncateText } from "@/utils/utils";
 import CompanyForm from "./CompanyForm";
 
@@ -116,71 +116,61 @@ export default function CompaniesPage() {
                 {/* ===== Summary Section ===== */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-4">
                     {/* Total Companies */}
-                    <div className="bg-white shadow-sm rounded-xl p-4 flex items-center gap-4">
-                        <div className="bg-gray-100 p-3 rounded-lg flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 7h18M3 12h18M3 17h18" />
-                            </svg>
+                    <div className="bg-white shadow-sm rounded-xl p-5 flex items-center gap-5">
+                        <div className="p-4 rounded-lg flex items-center justify-center bg-gray-100">
+                            <Briefcase className="h-10 w-10 text-gray-500" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Total Companies</span>
-                            <span className="text-lg font-semibold text-gray-800">{records.length}</span>
+                            <span className="text-2xl font-bold text-gray-800">{records.length}</span>
                         </div>
                     </div>
 
                     {/* Total Demand */}
-                    <div className="bg-blue-50 shadow-sm rounded-xl p-4 flex items-center gap-4">
-                        <div className="bg-blue-100 p-3 rounded-lg flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2-1.343-2-3-2z" />
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 12c-3.333 0-6 1.667-6 3v3h12v-3c0-1.333-2.667-3-6-3z" />
-                            </svg>
+                    <div className="bg-blue-50 shadow-sm rounded-xl p-5 flex items-center gap-5">
+                        <div className="p-4 rounded-lg flex items-center justify-center bg-blue-100">
+                            <Users className="h-10 w-10 text-blue-500" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Total Demand</span>
-                            <span className="text-lg font-semibold text-gray-800">{totalDemand}</span>
+                            <span className="text-2xl font-bold text-gray-800">{totalDemand}</span>
                         </div>
                     </div>
 
                     {/* Total Visa Stamped */}
-                    <div className="bg-green-50 shadow-sm rounded-xl p-4 flex items-center gap-4">
-                        <div className="bg-green-100 p-3 rounded-lg flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                            </svg>
+                    <div className="bg-green-50 shadow-sm rounded-xl p-5 flex items-center gap-5">
+                        <div className="p-4 rounded-lg flex items-center justify-center bg-green-100">
+                            <CheckCircle className="h-10 w-10 text-green-500" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Visa Stamped</span>
-                            <span className="text-lg font-semibold text-gray-800">{totalVisaStamped}</span>
+                            <span className="text-2xl font-bold text-gray-800">{totalVisaStamped}</span>
                         </div>
                     </div>
 
                     {/* Remaining */}
-                    <div className="bg-yellow-50 shadow-sm rounded-xl p-4 flex items-center gap-4">
-                        <div className="bg-yellow-100 p-3 rounded-lg flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m2 0a2 2 0 010 4H7a2 2 0 010-4h10z" />
-                            </svg>
+                    <div className="bg-yellow-50 shadow-sm rounded-xl p-5 flex items-center gap-5">
+                        <div className="p-4 rounded-lg flex items-center justify-center bg-yellow-100">
+                            <Clock className="h-10 w-10 text-yellow-500" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Remaining</span>
-                            <span className="text-lg font-semibold text-gray-800">{totalRemaining}</span>
+                            <span className="text-2xl font-bold text-gray-800">{totalRemaining}</span>
                         </div>
                     </div>
 
                     {/* Active Companies */}
-                    <div className="bg-purple-50 shadow-sm rounded-xl p-4 flex items-center gap-4">
-                        <div className="bg-purple-100 p-3 rounded-lg flex items-center justify-center">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4" />
-                            </svg>
+                    <div className="bg-purple-50 shadow-sm rounded-xl p-5 flex items-center gap-5">
+                        <div className="p-4 rounded-lg flex items-center justify-center bg-purple-100">
+                            <Activity className="h-10 w-10 text-purple-500" />
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Active Companies</span>
-                            <span className="text-lg font-semibold text-gray-800">{activeCompanies}</span>
+                            <span className="text-2xl font-bold text-gray-800">{activeCompanies}</span>
                         </div>
                     </div>
                 </div>
+
 
 
 
