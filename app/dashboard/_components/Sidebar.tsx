@@ -1,6 +1,6 @@
 "use client";
 
-import { Home, UsersRound, Settings, HelpCircle, Hospital, PlaneTakeoff, ClipboardList } from "lucide-react";
+import { Home, UsersRound, Settings, HelpCircle, Hospital, PlaneTakeoff } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation"; // for active link
