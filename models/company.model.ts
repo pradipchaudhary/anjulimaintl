@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, UpdateQuery } from "mongoose";
 
 // 1️⃣ TypeScript Interface
 export interface ICompany extends Document {
@@ -9,7 +9,7 @@ export interface ICompany extends Document {
     remaining: number;                               // Remaining visas (auto-calculated)
     visaNumber?: string;                             // Optional
     sponsorId?: string;                              // Optional
-    status: "pending" | "active" | "finished";      // Status of demand
+    status: "pending" | "active" | "finished";       // Status of demand
     remark?: string;                                 // Notes
     createdAt: Date;
     updatedAt: Date;
@@ -42,7 +42,6 @@ const CompanySchema: Schema<ICompany> = new Schema(
 CompanySchema.pre<ICompany>("save", function (next) {
     this.remaining = this.qty - this.visaStamped;
 
-    // Auto-set status to 'finished' if all visas are stamped
     if (this.visaStamped >= this.qty) {
         this.status = "finished";
     }
@@ -50,26 +49,24 @@ CompanySchema.pre<ICompany>("save", function (next) {
     next();
 });
 
-// 4️⃣ Auto-calculate `remaining` and status before update (findOneAndUpdate, updateOne, etc.)
+// 4️⃣ Auto-calculate `remaining` and status before update
 CompanySchema.pre("findOneAndUpdate", function (next) {
-    const update: any = this.getUpdate();
+    const update = this.getUpdate() as UpdateQuery<ICompany>;
 
-    // Get current values
-    const currentQty = this.get("qty");
-    const currentVisaStamped = this.get("visaStamped");
+    if (!update) return next();
 
-    const newQty = update.qty !== undefined ? update.qty : currentQty;
-    const newVisaStamped = update.visaStamped !== undefined ? update.visaStamped : currentVisaStamped;
+    // Use `$set` for safety
+    const set = (update.$set ??= {} as Partial<ICompany>);
 
-    // Calculate remaining
-    update.remaining = newQty - newVisaStamped;
+    const newQty = set.qty ?? (this.get("qty") as number);
+    const newVisaStamped = set.visaStamped ?? (this.get("visaStamped") as number);
 
-    // Auto-set status to 'finished' if all visas are stamped
+    set.remaining = newQty - newVisaStamped;
+
     if (newVisaStamped >= newQty) {
-        update.status = "finished";
+        set.status = "finished";
     }
 
-    this.setUpdate(update);
     next();
 });
 
