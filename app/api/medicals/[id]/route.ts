@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Medical, { IMedical } from "@/models/medical.model";
+import Medical, { IMedical } from "@/models/Medical.model";
 
 // Define a proper context type for dynamic routes
 interface RouteContext {
