@@ -137,16 +137,14 @@ export default function MedicalList() {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-100">
                         {loading ? (
-                            Array.from({ length: 5 }).map((_, i) => (
-                                <tr key={i}>
-                                    <td
-                                        colSpan={7}
-                                        className="p-6 text-center text-gray-400 animate-pulse"
-                                    >
-                                        Loading...
-                                    </td>
-                                </tr>
-                            ))
+                            <tr >
+                                <td
+                                    colSpan={6}
+                                    className="p-6 text-center text-gray-400 animate-pulse"
+                                >
+                                    Loading...
+                                </td>
+                            </tr>
                         ) : filteredRecords.length > 0 ? (
                             filteredRecords.map((r, i) => (
                                 <tr

@@ -1,4 +1,4 @@
-import { ICompany } from "@/models/company.model";
+import { ICompany } from "@/models/Company.model";
 
 /**
  * Truncate a long text to a limited number of words
@@ -18,7 +18,7 @@ const truncateText = (text: string = "", wordLimit = 10): string => {
  * @returns CSS string
  */
 const statusClass = (status: ICompany["status"]): string => {
-    const baseClasses = "inline-block text-xs font-semibold px-2 py-0.5 rounded-full";
+    const baseClasses = "inline-block text-xs font-semibold px-2 py-0.5 rounded-sm";
 
     switch (status) {
         case "active":
@@ -31,5 +31,7 @@ const statusClass = (status: ICompany["status"]): string => {
             return baseClasses;
     }
 };
+
+
 
 export { truncateText, statusClass };
