@@ -1,240 +1,268 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-interface CandidateForm {
-    firstName: string;
-    middleName?: string;
-    lastName: string;
-    dateOfBirth: string;
-    gender: "male" | "female" | "other";
-    nationality: string;
-    address: string;
-    contactNumber: string;
-    passportNumber: string;
-    positionApplied: string;
-    remark?: string;
+interface Company {
+    _id: string;
+    companyName: string;
 }
 
-export default function AddCandidate() {
+export default function NewCandidatePage() {
     const router = useRouter();
-
-    const [form, setForm] = useState<CandidateForm>({
+    const [companies, setCompanies] = useState<Company[]>([]);
+    const [form, setForm] = useState({
         firstName: "",
         middleName: "",
         lastName: "",
         dateOfBirth: "",
         gender: "male",
-        nationality: "Nepali",
+        nationality: "",
         address: "",
         contactNumber: "",
+        email: "",
         passportNumber: "",
-        positionApplied: "",
-        remark: "",
+        passportIssueDate: "",
+        passportExpiryDate: "",
+        position: "",
+        company: "", // stores company ID
+        status: "pending",
     });
 
-    const [loading, setLoading] = useState(false);
+    // 🔹 Fetch companies on mount
+    useEffect(() => {
+        fetch("/api/companies")
+            .then((res) => res.json())
+            .then((data) => setCompanies(data))
+            .catch((err) => console.error("Error fetching companies:", err));
+    }, []);
 
-    // Handle form change
-    const handleChange = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-        >
-    ) => {
-        const { name, value } = e.target;
-        setForm((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    // Submit form
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true);
+        const res = await fetch("/api/candidates", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(form),
+        });
 
-        try {
-            const res = await fetch("/api/candidates", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(form),
-            });
-
-            if (!res.ok) throw new Error("Failed to create candidate");
-
-            router.push("/dashboard/candidates");
-        } catch (err) {
-            console.error(err);
-            alert("Error creating candidate record");
-        } finally {
-            setLoading(false);
+        if (res.ok) {
+            router.push("/candidates");
+        } else {
+            alert("❌ Error creating candidate");
         }
     };
 
     return (
-        <div className="max-w-2xl mx-auto bg-white shadow rounded-xl p-6">
-            <h1 className="text-2xl font-bold mb-6">Add New Candidate</h1>
+        <div className="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+            <h1 className="text-3xl font-bold mb-6 text-gray-800">🧑 Add New Candidate</h1>
 
-            <form onSubmit={handleSubmit} className="space-y-4">
-                {/* First, Middle, Last Name */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium mb-1">First Name</label>
-                        <input
-                            type="text"
-                            name="firstName"
-                            value={form.firstName}
-                            onChange={handleChange}
-                            required
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Middle Name</label>
-                        <input
-                            type="text"
-                            name="middleName"
-                            value={form.middleName}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Last Name</label>
-                        <input
-                            type="text"
-                            name="lastName"
-                            value={form.lastName}
-                            onChange={handleChange}
-                            required
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
+            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* First Name */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">First Name</label>
+                    <input
+                        name="firstName"
+                        value={form.firstName}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
                 </div>
 
-                {/* Date of Birth & Gender */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            Date of Birth
-                        </label>
-                        <input
-                            type="date"
-                            name="dateOfBirth"
-                            value={form.dateOfBirth}
-                            onChange={handleChange}
-                            required
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">Gender</label>
-                        <select
-                            name="gender"
-                            value={form.gender}
-                            onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
+                {/* Middle Name */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Middle Name</label>
+                    <input
+                        name="middleName"
+                        value={form.middleName}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                {/* Last Name */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Last Name</label>
+                    <input
+                        name="lastName"
+                        value={form.lastName}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Date of Birth */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Date of Birth</label>
+                    <input
+                        type="date"
+                        name="dateOfBirth"
+                        value={form.dateOfBirth}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Gender */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Gender</label>
+                    <select
+                        name="gender"
+                        value={form.gender}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
                 </div>
 
                 {/* Nationality */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">Nationality</label>
+                    <label className="block mb-2 font-semibold text-gray-700">Nationality</label>
                     <input
-                        type="text"
                         name="nationality"
                         value={form.nationality}
                         onChange={handleChange}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2"
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
                 </div>
 
                 {/* Address */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">Address</label>
+                    <label className="block mb-2 font-semibold text-gray-700">Address</label>
                     <input
-                        type="text"
                         name="address"
                         value={form.address}
                         onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
                         required
-                        className="w-full border border-gray-300 rounded-md px-3 py-2"
                     />
                 </div>
 
-                {/* Contact + Passport */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            Contact Number
-                        </label>
-                        <input
-                            type="text"
-                            name="contactNumber"
-                            value={form.contactNumber}
-                            onChange={handleChange}
-                            required
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium mb-1">
-                            Passport Number
-                        </label>
-                        <input
-                            type="text"
-                            name="passportNumber"
-                            value={form.passportNumber}
-                            onChange={handleChange}
-                            required
-                            className="w-full border border-gray-300 rounded-md px-3 py-2"
-                        />
-                    </div>
-                </div>
-
-                {/* Position Applied */}
+                {/* Contact Number */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">
-                        Position Applied
-                    </label>
+                    <label className="block mb-2 font-semibold text-gray-700">Contact Number</label>
                     <input
-                        type="text"
-                        name="positionApplied"
-                        value={form.positionApplied}
+                        name="contactNumber"
+                        value={form.contactNumber}
                         onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
                         required
-                        className="w-full border border-gray-300 rounded-md px-3 py-2"
                     />
                 </div>
 
-                {/* Remark */}
+                {/* Email */}
                 <div>
-                    <label className="block text-sm font-medium mb-1">
-                        Remark (optional)
-                    </label>
-                    <textarea
-                        name="remark"
-                        value={form.remark}
+                    <label className="block mb-2 font-semibold text-gray-700">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        value={form.email}
                         onChange={handleChange}
-                        rows={3}
-                        className="w-full border border-gray-300 rounded-md px-3 py-2"
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
                     />
+                </div>
+
+                {/* Passport Number */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Passport Number</label>
+                    <input
+                        name="passportNumber"
+                        value={form.passportNumber}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Passport Issue Date */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Passport Issue Date</label>
+                    <input
+                        type="date"
+                        name="passportIssueDate"
+                        value={form.passportIssueDate}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Passport Expiry Date */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Passport Expiry Date</label>
+                    <input
+                        type="date"
+                        name="passportExpiryDate"
+                        value={form.passportExpiryDate}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Position */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Position</label>
+                    <input
+                        name="position"
+                        value={form.position}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    />
+                </div>
+
+                {/* Company */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Company</label>
+                    <select
+                        name="company"
+                        value={form.company}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                        required
+                    >
+                        <option value="">-- Select Company --</option>
+                        {companies.map((company) => (
+                            <option key={company._id} value={company._id}>
+                                {company.companyName}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                {/* Status */}
+                <div>
+                    <label className="block mb-2 font-semibold text-gray-700">Status</label>
+                    <select
+                        name="status"
+                        value={form.status}
+                        onChange={handleChange}
+                        className="w-full border p-3 rounded-lg focus:ring-2 focus:ring-blue-500"
+                    >
+                        <option value="pending">Pending</option>
+                        <option value="selected">Selected</option>
+                        <option value="deployed">Deployed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
                 </div>
 
                 {/* Submit */}
-                <div className="flex justify-end">
+                <div className="md:col-span-2 flex justify-end">
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="bg-primary text-white px-6 py-2 rounded-md hover:bg-blue-700 transition disabled:opacity-50"
+                        className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
                     >
-                        {loading ? "Saving..." : "Save Candidate"}
+                        Save Candidate
                     </button>
                 </div>
             </form>

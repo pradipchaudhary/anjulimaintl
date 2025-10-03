@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Candidate from "@/models/Candidate";
+import Candidate from "@/models/Candidate.model";
 
 
 // Define a proper context type for dynamic routes
