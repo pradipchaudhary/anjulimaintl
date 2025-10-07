@@ -23,7 +23,6 @@ interface CompanyFormProps {
     onClose: () => void;
     onSuccess: (company: ICompany) => void;
 }
-// ...imports and interface definitions remain unchanged
 
 function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
     const [ltNo, setLtNo] = useState(company?.ltNo || "");
@@ -40,14 +39,10 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
 
     const remaining = qty - visaStamped;
 
-    // 🔥 Automatically update status based on visaStamped vs qty
     const handleVisaStampedChange = (value: number) => {
-        let newValue = value;
-        if (value < 0) newValue = 0;
-        if (value > qty) newValue = qty;
+        const newValue = value < 0 ? 0 : value > qty ? qty : value;
         setVisaStamped(newValue);
 
-        // Auto-change status
         if (newValue === qty) {
             setStatus("finished");
         } else if (status === "finished") {
@@ -55,15 +50,12 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
         }
     };
 
-    // Optional: handle qty change as well to adjust visaStamped and status
     const handleQtyChange = (value: number) => {
         const newQty = value < 0 ? 0 : value;
         setQty(newQty);
 
-        // Adjust visaStamped if it exceeds new qty
         if (visaStamped > newQty) setVisaStamped(newQty);
 
-        // Update status
         if (visaStamped === newQty) {
             setStatus("finished");
         } else if (status === "finished") {
@@ -76,9 +68,7 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
         setLoading(true);
 
         try {
-            // Ensure final status is correct
             const finalStatus = visaStamped === qty ? "finished" : status;
-
             const url = company ? `/api/companies/${company._id}` : "/api/companies";
             const method = company ? "PUT" : "POST";
 
@@ -111,42 +101,44 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
     };
 
     return (
-        <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
-            <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-lg relative animate-fadeIn">
+        <div className="fixed inset-0 flex items-center justify-center bg-black/30 backdrop-blur-sm z-50">
+            <div className="bg-white rounded-xl p-6 w-full max-w-lg relative">
                 {/* Close Button */}
                 <button
                     onClick={onClose}
-                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-700 transition"
+                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-600"
                 >
-                    <X size={22} />
+                    <X size={20} />
                 </button>
 
                 {/* Title */}
-                <h2 className="text-2xl font-bold mb-6 text-gray-800 text-center">
+                <h2 className="text-xl font-semibold mb-6 text-gray-800 text-center">
                     {company ? "✏️ Edit Company" : "➕ Add New Company"}
                 </h2>
 
                 <form className="space-y-4" onSubmit={handleSubmit}>
                     {/* LT No */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">LT No</label>
+                        <label className="block text-sm text-gray-600 mb-1">LT No</label>
                         <input
                             type="text"
                             value={ltNo}
                             onChange={(e) => setLtNo(e.target.value)}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                             required
                         />
                     </div>
 
                     {/* Company Name */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
+                        <label className="block text-sm text-gray-600 mb-1">
+                            Company Name
+                        </label>
                         <input
                             type="text"
                             value={companyName}
                             onChange={(e) => setCompanyName(e.target.value)}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                             required
                         />
                     </div>
@@ -154,67 +146,79 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
                     {/* Quota + Visa Stamped + Remaining */}
                     <div className="grid grid-cols-3 gap-3">
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Total Quota</label>
+                            <label className="block text-sm text-gray-600 mb-1">
+                                Total Quota
+                            </label>
                             <input
                                 type="number"
                                 value={qty}
                                 min={0}
                                 onChange={(e) => handleQtyChange(Number(e.target.value))}
-                                className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                                 required
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Visa Stamped</label>
+                            <label className="block text-sm text-gray-600 mb-1">
+                                Visa Stamped
+                            </label>
                             <input
                                 type="number"
                                 value={visaStamped}
                                 min={0}
                                 max={qty}
                                 onChange={(e) => handleVisaStampedChange(Number(e.target.value))}
-                                className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                             />
                         </div>
                         <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">Remaining</label>
+                            <label className="block text-sm text-gray-600 mb-1">
+                                Remaining
+                            </label>
                             <input
                                 type="number"
                                 value={remaining}
                                 readOnly
-                                className="w-full border px-4 py-2 rounded-lg bg-gray-100 text-gray-600 shadow-sm"
+                                className="w-full border border-gray-200 rounded-md px-3 py-2 bg-gray-50 text-gray-600"
                             />
                         </div>
                     </div>
 
                     {/* Visa Number */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Visa Number</label>
+                        <label className="block text-sm text-gray-600 mb-1">
+                            Visa Number
+                        </label>
                         <input
                             type="text"
                             value={visaNumber}
                             onChange={(e) => setVisaNumber(e.target.value)}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                         />
                     </div>
 
                     {/* Sponsor ID */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Sponsor ID</label>
+                        <label className="block text-sm text-gray-600 mb-1">
+                            Sponsor ID
+                        </label>
                         <input
                             type="text"
                             value={sponsorId}
                             onChange={(e) => setSponsorId(e.target.value)}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700"
                         />
                     </div>
 
                     {/* Status */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                        <label className="block text-sm text-gray-600 mb-1">Status</label>
                         <select
                             value={status}
-                            onChange={(e) => setStatus(e.target.value as ICompany["status"])}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            onChange={(e) =>
+                                setStatus(e.target.value as ICompany["status"])
+                            }
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700 bg-white"
                         >
                             <option value="pending">⏳ Pending</option>
                             <option value="active">✅ Active</option>
@@ -224,11 +228,11 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
 
                     {/* Remark */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">Remark</label>
+                        <label className="block text-sm text-gray-600 mb-1">Remark</label>
                         <textarea
                             value={remark}
                             onChange={(e) => setRemark(e.target.value)}
-                            className="w-full border px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary shadow-sm min-h-[80px]"
+                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-primary focus:border-primary text-gray-700 min-h-[80px]"
                         />
                     </div>
 
@@ -236,7 +240,7 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-secondary transition font-semibold shadow-md"
+                        className="w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-secondary transition font-medium"
                     >
                         {loading
                             ? company
@@ -251,7 +255,5 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
         </div>
     );
 }
-
-
 
 export default CompanyForm;

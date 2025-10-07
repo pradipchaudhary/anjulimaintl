@@ -122,7 +122,7 @@ export default function CompaniesPage() {
                         </div>
                         <div className="flex flex-col">
                             <span className="text-gray-500 text-xs font-medium uppercase">Total Companies</span>
-                            <span className="text-2xl font-bold text-gray-800">{records.length}</span>
+                            <span className="text-2xl font-bold  text-gray-800">{records.length}</span>
                         </div>
                     </div>
 

@@ -181,33 +181,16 @@ export default function CandidatePage() {
                                     "SN",
                                     "Name",
                                     "DOB",
-                                    "Gender",
-                                    "Nationality",
-                                    "Address",
-                                    "Contact",
-                                    "Email",
                                     "Passport No",
-                                    "Passport Issue Date",
-                                    "Passport Expiry Date",
-                                    "Passport Issued From",
-                                    "Position",
                                     "Company",
-                                    "Demand Letter No",
-                                    "Contract Period",
                                     "Status",
                                     "Medical Status",
                                     "Medical Center",
                                     "Medical Date",
-                                    "Visa Number",
-                                    "Visa Status",
                                     "MOFA No",
-                                    "Ticket No",
-                                    "Departure Date",
+
                                     "Reference Name",
-                                    "Reference Contact",
                                     "Remark",
-                                    "Created At",
-                                    "Updated At",
                                     "Actions",
                                 ].map((h) => (
                                     <th
@@ -227,36 +210,21 @@ export default function CandidatePage() {
                                         <td className="px-4 py-2">
                                             {r.firstName} {r.middleName ?? ""} {r.lastName}
                                         </td>
+                                        {/* <td className="px-4 py-2">
+                                            {formatDateShort(r.dateOfBirth)}
+                                        </td> */}
                                         <td className="px-4 py-2">{r.dateOfBirth}</td>
-                                        <td className="px-4 py-2">{r.gender}</td>
-                                        <td className="px-4 py-2">{r.nationality}</td>
-                                        <td className="px-4 py-2">{r.address}</td>
-                                        <td className="px-4 py-2">{r.contactNumber}</td>
-                                        <td className="px-4 py-2">{r.email}</td>
                                         <td className="px-4 py-2">{r.passportNumber}</td>
-                                        <td className="px-4 py-2">{r.passportIssueDate}</td>
-                                        <td className="px-4 py-2">{r.passportExpiryDate}</td>
-                                        <td className="px-4 py-2">{r.passportIssuedFrom}</td>
-                                        <td className="px-4 py-2">{r.positionApplied}</td>
                                         <td className="px-4 py-2">{r.company}</td>
-                                        <td className="px-4 py-2">{r.demandLetterNo}</td>
-                                        <td className="px-4 py-2">{r.contractPeriod}</td>
                                         <td className="px-4 py-2">
                                             <StatusBadge status={r.status} />
                                         </td>
                                         <td className="px-4 py-2">{r.medicalStatus}</td>
                                         <td className="px-4 py-2">{r.medicalCenter}</td>
                                         <td className="px-4 py-2">{r.medicalDate}</td>
-                                        <td className="px-4 py-2">{r.visaNumber}</td>
-                                        <td className="px-4 py-2">{r.visaStatus}</td>
                                         <td className="px-4 py-2">{r.mofaNumber}</td>
-                                        <td className="px-4 py-2">{r.ticketNumber}</td>
-                                        <td className="px-4 py-2">{r.departureDate}</td>
                                         <td className="px-4 py-2">{r.referenceName}</td>
-                                        <td className="px-4 py-2">{r.referenceContact}</td>
                                         <td className="px-4 py-2">{r.remark}</td>
-                                        <td className="px-4 py-2">{r.createdAt}</td>
-                                        <td className="px-4 py-2">{r.updatedAt}</td>
                                         <td className="px-4 py-2 flex space-x-2">
                                             <Link
                                                 href={`/dashboard/candidates/${r._id}`}
