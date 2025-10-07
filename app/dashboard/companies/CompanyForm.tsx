@@ -40,7 +40,7 @@ function CompanyForm({ company, onClose, onSuccess }: CompanyFormProps) {
     const remaining = qty - visaStamped;
 
     const handleVisaStampedChange = (value: number) => {
-        let newValue = value < 0 ? 0 : value > qty ? qty : value;
+        const newValue = value < 0 ? 0 : value > qty ? qty : value;
         setVisaStamped(newValue);
 
         if (newValue === qty) {

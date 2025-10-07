@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Edit, Trash2, Loader2 } from "lucide-react";
-import { formatDateShort } from "@/utils/FormatDate";
 
 // Match schema
 interface ICandidate {
