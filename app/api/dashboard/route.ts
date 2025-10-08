@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Visa from "@/models/Visa";
-import Candidate from "@/models/Candidate.model";
+import Candidate from "@/models/candidate.model";
 import { Company } from "@/models/company.model";
 
 export async function GET() {

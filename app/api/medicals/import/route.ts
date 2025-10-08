@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import * as XLSX from "xlsx";
-import Medical from "@/models/Medical.model";
+// import Medical from "@/models/medical.model";
 import { connectDB } from "@/lib/db";
+import { Medical } from "@/models/medical.model";
 
 interface ExcelRow {
     name: string;
