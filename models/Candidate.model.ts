@@ -49,5 +49,5 @@ const CandidateSchema: Schema = new Schema(
     { timestamps: true }
 );
 
-export default mongoose.models.Candidate ||
+export const Candidate = mongoose.models.Candidate ||
     mongoose.model<ICandidate>("Candidate", CandidateSchema);
