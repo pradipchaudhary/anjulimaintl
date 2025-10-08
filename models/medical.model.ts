@@ -19,5 +19,5 @@ const MedicalSchema: Schema = new Schema<IMedical>(
     { timestamps: true }
 );
 
-export default mongoose.models.Medical ||
+export const Medical = mongoose.models.Medical ||
     mongoose.model<IMedical>("Medical", MedicalSchema);

@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
-import Visa from "@/models/Visa";
-import Candidate from "@/models/Candidate.model";
-import { Company } from "@/models/Company.model";
+import { Company } from "@/models/company.model";
+import { Candidate } from "@/models/candidate.model";
 
 export async function GET() {
     try {
@@ -19,8 +18,8 @@ export async function GET() {
             Candidate.countDocuments({ status: "active" }),
             Candidate.countDocuments({ status: "pending" }),
             Candidate.countDocuments({ medicalStatus: "passed" }),
-            Visa.countDocuments(),
-            Visa.countDocuments({ status: "active" }),
+            Company.countDocuments(),
+            Company.countDocuments({ status: "active" }),
             Company.countDocuments(),
         ]);
 
